@@ -6,4 +6,9 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
+router.get('/test', function(req, res, next) {
+  // console.log('req: ', req);
+  res.render('admin/index.ejs');
+});
+
 module.exports = router;

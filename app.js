@@ -12,6 +12,20 @@ var app = express();
 // var test = require('./query.js');
 // test.func();
 // view engine setup
+// var test = require('./main.js');
+// test.getInformation('5609610349', (err, data) => {
+//   if(data !== null)
+//     console.log(data);
+//   else
+//     console.log(err);
+// });
+
+// test.getInformation('นิติพัฒน์ วุฒิศศิวัฒน์', (err, data) => {
+//   if(data !== null)
+//     console.log(data);
+//   else
+//     console.log(err);
+// });
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 

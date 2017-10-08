@@ -6,9 +6,19 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
-router.get('/test', function(req, res, next) {
+router.get('/login', function(req, res, next) {
   // console.log('req: ', req);
   res.render('admin/index.ejs');
 });
+
+router.get('/code',function(req,res,next){
+  res.render('admin/confimation.ejs');
+});
+
+router.get('/form',function(req,res,next){
+  res.render('admin/form-login.ejs');
+});
+
+
 
 module.exports = router;

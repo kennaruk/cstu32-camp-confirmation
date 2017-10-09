@@ -189,3 +189,53 @@ exports.getDataByCode = (code, callback) => {
     });
   });
 }
+
+exports.updateShirtByIndex = (index, callback) { 
+  var updateRange = 'I'+(index+2);
+
+  authentication.authenticate().then((auth) => {
+    sheets.spreadsheets.values.update({
+      auth: auth,
+      spreadsheetId: spreadsheetId,
+      range: updateRange, 
+      valueInputOption: "USER_ENTERED",
+      resource: {
+        values: [["รับเสื้อแล้ว"]]
+      } 
+    }, (err, response) => {
+      if (err) {
+        console.log('The API returned an error: ' + err);
+        callback(err);
+        return;
+      } else {
+        console.log('Update!! รับเสื้อแล้ว');
+        callback(null);
+      }
+    });
+  });
+}
+
+exports.updateMoneyByIndex = (index, callback) { 
+  var updateRange = 'H'+(index+2);
+
+  authentication.authenticate().then((auth) => {
+    sheets.spreadsheets.values.update({
+      auth: auth,
+      spreadsheetId: spreadsheetId,
+      range: updateRange, 
+      valueInputOption: "USER_ENTERED",
+      resource: {
+        values: [["จ่ายแล้ว"]]
+      } 
+    }, (err, response) => {
+      if (err) {
+        console.log('The API returned an error: ' + err);
+        callback(err);
+        return;
+      } else {
+        console.log('Update!! จ่ายเงินแล้ว');
+        callback(null);
+      }
+    });
+  });
+}

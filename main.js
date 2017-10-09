@@ -33,7 +33,7 @@ function getData(auth) {
 // });
 
 const spreadsheetId = '1p3a80RSb-q8bhZ1rS2inQtle5eYAr62JL7YPC5em868';
-const range = 'Sheet1!A2:G';
+const range = 'Sheet1!A2:H';
 const sheets = google.sheets('v4');
 
 getInformationById = (id, callback) => {

@@ -13,6 +13,9 @@ var app = express();
 // test.func();
 // view engine setup
 // var test = require('./main.js');
+// test.getCodeByIndex(126, (err, row) => {
+//   console.log('row test: ', row);
+// });
 // test.getInformation('5609610349', (err, data) => {
 //   if(data !== null)
 //     console.log(data);

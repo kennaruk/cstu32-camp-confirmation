@@ -21,11 +21,11 @@ router.get('/getPage3', function(req, res, next) {
 
 router.post('/getInformation', function(req, res, next) {
   var key = req.body.key;
-  console.log('key: ', key);
+  // console.log('key: ', key);
 
   sheets.getInformation(key, (err, row) => {
 
-    console.log('row: ', row);
+    // console.log('row: ', row);
     if(err) {
       res.render('client/page1.ejs', {alert: true});
     }
@@ -57,7 +57,7 @@ var getId = (callback) => {
 
 router.post('/getId', function(req, res, next) {
   var index = parseInt(req.body.index);
-  console.log('index: ', index);
+  // console.log('index: ', index);
   getId((id) => {
     sheets.updateCode(id, index, (err) => {
       if(err)

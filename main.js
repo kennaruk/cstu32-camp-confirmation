@@ -107,12 +107,12 @@ exports.getInformation = (key, callback) => {
   key = key.trim();
   var numberRegex = '\\d+';
   if(key.match(numberRegex)) {
-    console.log('by number!')
+    // console.log('by number!')
     getInformationById(key, callback);
       
   }
   else {
-    console.log('by name!');
+    // console.log('by name!');
     getInformationByName(key, callback);    
   }
 }
@@ -143,7 +143,7 @@ exports.getCodeByIndex = (index, callback) => {
 
 exports.updateCode = (code, index, callback) => {
   var updateRange = 'G'+(index+2);
-  console.log('updateRange: ', updateRange);
+  // console.log('updateRange: ', updateRange);
 
   authentication.authenticate().then((auth) => {
     sheets.spreadsheets.values.update({

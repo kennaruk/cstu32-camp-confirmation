@@ -4,7 +4,7 @@ var sheets = require('../main.js');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('client/page1.ejs');
+  res.render('client/page1.ejs', {alert: false});
 });
 
 router.get('/getPage1', function(req, res, next) {
@@ -26,10 +26,11 @@ router.post('/getInformation', function(req, res, next) {
   sheets.getInformation(key, (err, row) => {
 
     console.log('row: ', row);
-    if(row[6] !== "SPACE")
-      res.render('client/page3.ejs', {code: row[6]});
-    else if(err)
-      res.send('not found!');
+    if(err) {
+      res.render('client/page1.ejs', {alert: true});
+    }
+    else if(row[6] !== "SPACE")
+     res.render('client/page3.ejs', {code: row[6]});   
     else {
       var payload = {
         name: row[2],

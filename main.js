@@ -115,7 +115,6 @@ exports.getInformation = (key, callback) => {
   }
 }
 
-<<<<<<< HEAD
 var getId = (callback) => {
   var crypto = require("crypto");
   var id = crypto.randomBytes(2).toString('hex');
@@ -127,7 +126,6 @@ var getId = (callback) => {
 
 
 
-=======
 exports.updateCode = (code, index, callback) => {
   var updateRange = 'G'+(index+2);
   console.log('updateRange: ', updateRange);
@@ -153,4 +151,3 @@ exports.updateCode = (code, index, callback) => {
     });
   });
 }
->>>>>>> master

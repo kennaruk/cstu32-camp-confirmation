@@ -1,42 +1,41 @@
 var express = require('express');
 var router = express.Router();
-<<<<<<< HEAD
-const passport = require('passport')
-const bcrypt = require('bcrypt')
-const LocalStrategy = require('passport-local').Strategy
+var session = require('express-session');
 
-const user = {
-  username: 'test-user',
-  password: 'test',
+const user1 = {
+  username: 'Admin1',
+  password: 'cstu32admin1',
 } 
 
+const user2 = {
+  username: 'Admin2',
+  password: 'cstu32admin2',
+} 
+
+router.use(session({
+    secret: 'CSTU32',
+    resave: true,
+    saveUninitialized: true
+}));
+
+
 function checkuser(username,password){
-  if(user.username.includes(username) && user.password.includes(password)){
-    return false;
+  if((user1.username.includes(username) && user1.password.includes(password) )||
+  (user2.username.includes(username) && user2.password.includes(password)) ){
+    return true;
   }
-    return true; 
+    return false; 
 }
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-
-  var username = req.body.username;
-  var password = req.body.password;
-
-  passport.use(new LocalStrategy((username, password, ) => {
-    //username is admin
-    if(checkuser(username,password)){
-        res.render("Id is Admin || Page Admin");
-    }else{
-        res.render("Id is not admin");      
-    }
-
-  }
-))
-  res.send('respond with a resource');
-=======
  
-/* GET users listing. */
-router.get('/', function(req, res, next) {
+// Authentication and Authorization Middleware
+var auth = function(req, res, next) {
+  if (req.session.admin)
+    return next();
+  else
+    return res.redirect('/');
+};
+ 
+router.get('/', auth, function(req, res, next) {
   res.render('admin/confimation.ejs');
 });
 
@@ -44,23 +43,39 @@ router.get('/notLogin', function(req, res, next) {
   res.render('admin/form-login.ejs');
 });
 
-router.post('/login', function(req, res, next) {
-  var username = req.body.username;
-  var password = req.body.password;
-  res.redirect('/');
+router.post('/', function(req, res, next) {
+
+  username = req.body.username;
+  password = req.body.password;
+
+ if (!username || !password) {
+   //TODO:error plz edit
+      res.redirect('/notLogin');
+  } else {
+    //check username password admin
+    if(checkuser(username,password)){
+      req.session.admin = true;
+      res.redirect('/');
+    }
+  }
 });
 
-router.get('/code',function(req,res,next){
+// Logout endpoint
+router.get('/logout', function (req, res) {
+  req.session.destroy();
+
+});
+
+router.get('/code', auth,function(req,res,next){
   res.render('admin/confimation.ejs');
 });
 
-router.get('/notPay',function(req,res,next){
+router.get('/notPay', auth,function(req,res,next){
   res.render('admin/person_detail.ejs');
 });
 
-router.get('/pay',function(req,res,next){
+router.get('/pay', auth,function(req,res,next){
   res.render('admin/success_person.ejs');
->>>>>>> master
 });
 
 

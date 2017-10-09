@@ -20,6 +20,13 @@ var app = express();
 //     console.log(err);
 // });
 
+// test.updateCode('genCode', 12, (err) => {
+//   if(err) 
+//     console.log('err!!');
+//   else
+//     console.log('pass!!');
+// });
+
 // test.getInformation('นิติพัฒน์ วุฒิศศิวัฒน์', (err, data) => {
 //   if(data !== null)
 //     console.log(data);

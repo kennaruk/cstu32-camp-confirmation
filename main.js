@@ -32,8 +32,8 @@ function getData(auth) {
 //     getData(auth);
 // });
 
-const spreadsheetId = '1YGpLmRwK2AII36RlOP4wJW63lViz91Cu1k7LkPvQZlE';
-const range = 'Sheet1!A2:C';
+const spreadsheetId = '1p3a80RSb-q8bhZ1rS2inQtle5eYAr62JL7YPC5em868';
+const range = 'Sheet1!A2:G';
 const sheets = google.sheets('v4');
 
 getInformationById = (id, callback) => {
@@ -54,6 +54,7 @@ getInformationById = (id, callback) => {
       } else {
         for (var i = 0; rows.length; i++) {
           var row = rows[i];
+          row.push(i);
           if(row === undefined)
               break;
           if(row[1] === id) {
@@ -81,6 +82,7 @@ getInformationByName = (name, callback) => {
         return;
       }
       var rows = response.values;
+      row.push(i);
       if (rows.length === 0) {
         console.log('No data found.');
       } else {
@@ -113,6 +115,7 @@ exports.getInformation = (key, callback) => {
   }
 }
 
+<<<<<<< HEAD
 var getId = (callback) => {
   var crypto = require("crypto");
   var id = crypto.randomBytes(2).toString('hex');
@@ -124,3 +127,30 @@ var getId = (callback) => {
 
 
 
+=======
+exports.updateCode = (code, index, callback) => {
+  var updateRange = 'G'+(index+2);
+  console.log('updateRange: ', updateRange);
+
+  authentication.authenticate().then((auth) => {
+    sheets.spreadsheets.values.update({
+      auth: auth,
+      spreadsheetId: spreadsheetId,
+      range: updateRange, 
+      valueInputOption: "USER_ENTERED",
+      resource: {
+        values: [[code]]
+      } 
+    }, (err, response) => {
+      if (err) {
+        console.log('The API returned an error: ' + err);
+        callback(err);
+        return;
+      } else {
+        console.log('Update!!');
+        callback(null);
+      }
+    });
+  });
+}
+>>>>>>> master

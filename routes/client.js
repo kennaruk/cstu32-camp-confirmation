@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/getPage1', function(req, res, next) {
-  
+
 });
 
 router.get('/getPage2', function(req, res, next) {
@@ -30,7 +30,7 @@ router.post('/getInformation', function(req, res, next) {
       res.render('client/page1.ejs', {alert: true});
     }
     else if(row[6] !== "SPACE")
-     res.render('client/page3.ejs', {code: row[6]});   
+     res.render('client/page3.ejs', {code: row[6]});
     else {
       var payload = {
         name: row[2],
@@ -65,6 +65,6 @@ router.post('/getId', function(req, res, next) {
       else
         res.render('client/page3.ejs', {code: id});
     });
-  }); 
+  });
 });
 module.exports = router;

@@ -9,7 +9,7 @@ var client = require('./routes/client');
 var admin = require('./routes/admin');
 
 var app = express();
-// var test = require('./query.js');
+//var test = require('./query.js');
 // test.func();
 // view engine setup
 // var test = require('./main.js');
@@ -24,7 +24,7 @@ var app = express();
 // });
 
 // test.updateCode('genCode', 12, (err) => {
-//   if(err) 
+//   if(err)
 //     console.log('err!!');
 //   else
 //     console.log('pass!!');

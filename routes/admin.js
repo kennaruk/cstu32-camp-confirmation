@@ -1,31 +1,26 @@
 var express = require('express');
 var router = express.Router();
- 
+
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.render('admin/confimation.ejs');
+
+router.get('/pageAdmin1',function(req,res,next){
+  res.render('admin/Admin1.ejs');
 });
 
-router.get('/notLogin', function(req, res, next) {
-  res.render('admin/form-login.ejs');
+router.get('/pageAdmin2',function(req,res,next){
+  res.render('admin/Admin2.ejs');
 });
 
-router.post('/login', function(req, res, next) {
-  var username = req.body.username;
-  var password = req.body.password;
-  res.redirect('/');
+router.get('/pageAdmin3',function(req,res,next){
+  res.render('admin/Admin3.ejs');
 });
 
-router.get('/code',function(req,res,next){
-  res.render('admin/confimation.ejs');
+router.get('/pageAdmin4',function(req,res,next){
+  res.render('admin/Admin4.ejs');
 });
 
-router.get('/notPay',function(req,res,next){
-  res.render('admin/person_detail.ejs');
-});
-
-router.get('/pay',function(req,res,next){
-  res.render('admin/success_person.ejs');
+router.get('/pageAdmin5',function(req,res,next){
+  res.render('admin/Admin5.ejs');
 });
 
 module.exports = router;

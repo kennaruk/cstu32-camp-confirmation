@@ -33,7 +33,7 @@ function getData(auth) {
 // });
 
 const spreadsheetId = '1p3a80RSb-q8bhZ1rS2inQtle5eYAr62JL7YPC5em868';
-const range = 'Sheet1!A2:G';
+const range = 'Sheet1!A2:I';
 const sheets = google.sheets('v4');
 
 getInformationById = (id, callback) => {
@@ -49,14 +49,15 @@ getInformationById = (id, callback) => {
         return;
       }
       var rows = response.values;
+      // console.log('rows: ', rows);
       if (rows.length === 0) {
         console.log('No data found.');
       } else {
         for (var i = 0; rows.length; i++) {
           var row = rows[i];
-          row.push(i);
           if(row === undefined)
               break;
+          row.push(i);
           if(row[1] === id) {
             callback(null, row);
             return;   
@@ -82,7 +83,6 @@ getInformationByName = (name, callback) => {
         return;
       }
       var rows = response.values;
-      row.push(i);
       if (rows.length === 0) {
         console.log('No data found.');
       } else {
@@ -90,6 +90,7 @@ getInformationByName = (name, callback) => {
           var row = rows[i];
           if(row === undefined)
               break;
+          row.push(i);
           if(row[2] === name) {
             callback(null, row);
             return;   
@@ -103,32 +104,46 @@ getInformationByName = (name, callback) => {
 }
 
 exports.getInformation = (key, callback) => {
+  key = key.trim();
   var numberRegex = '\\d+';
   if(key.match(numberRegex)) {
-    console.log('by number!')
+    // console.log('by number!')
     getInformationById(key, callback);
       
   }
   else {
-    console.log('by name!');
+    // console.log('by name!');
     getInformationByName(key, callback);    
   }
 }
 
-var getId = (callback) => {
-  var crypto = require("crypto");
-  var id = crypto.randomBytes(2).toString('hex');
-  id = id.toLocaleLowerCase();
-
-  callback(id);
+exports.getCodeByIndex = (index, callback) => {
+  var readRange = 'G'+(index+2)+':G'+(index+2);
+  console.log('readRange: ', readRange);
+  authentication.authenticate().then((auth) => {
+    sheets.spreadsheets.values.get({
+      auth: auth,
+      spreadsheetId: spreadsheetId,
+      range: readRange, 
+    }, (err, response) => {
+      if (err) {
+        console.log('The API returned an error: ' + err);
+        callback(err, null);
+        return;
+      }
+      var rows = response.values;
+      if (rows.length === 0) {
+        console.log('No data found.');
+      } else {
+        callback(null, rows[0][0]);
+      }
+    });
+  });
 }
-
-
-
 
 exports.updateCode = (code, index, callback) => {
   var updateRange = 'G'+(index+2);
-  console.log('updateRange: ', updateRange);
+  // console.log('updateRange: ', updateRange);
 
   authentication.authenticate().then((auth) => {
     sheets.spreadsheets.values.update({

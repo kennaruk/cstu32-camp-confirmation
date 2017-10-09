@@ -33,7 +33,7 @@ function getData(auth) {
 // });
 
 const spreadsheetId = '1p3a80RSb-q8bhZ1rS2inQtle5eYAr62JL7YPC5em868';
-const range = 'Sheet1!A2:G';
+const range = 'Sheet1!A2:I';
 const sheets = google.sheets('v4');
 
 getInformationById = (id, callback) => {
@@ -162,6 +162,29 @@ exports.updateCode = (code, index, callback) => {
       } else {
         console.log('Update!!');
         callback(null);
+      }
+    });
+  });
+}
+
+exports.getDataByCode = (code, callback) => {
+  authentication.authenticate().then((auth) => {
+    sheets.spreadsheets.values.get({
+      auth: auth,
+      spreadsheetId: spreadsheetId,
+      range: range, 
+    }, (err, response) => {
+      if (err) {
+        console.log('The API returned an error: ' + err);
+        callback(err, null);
+        return;
+      }
+      var rows = response.values;
+      if (rows.length === 0) {
+        console.log('No data found.');
+        callback('data not found', null);
+      } else {
+        callback(null, rows[0]);
       }
     });
   });

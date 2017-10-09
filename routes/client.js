@@ -7,25 +7,10 @@ router.get('/', function(req, res, next) {
   res.render('client/page1.ejs', {alert: false});
 });
 
-router.get('/getPage1', function(req, res, next) {
-
-});
-
-router.get('/getPage2', function(req, res, next) {
-  res.render('client/page2.ejs');
-});
-
-router.get('/getPage3', function(req, res, next) {
-  res.render('client/page3.ejs');
-});
-
 router.post('/getInformation', function(req, res, next) {
   var key = req.body.key;
-  // console.log('key: ', key);
 
   sheets.getInformation(key, (err, row) => {
-
-    // console.log('row: ', row);
     if(err) {
       res.render('client/page1.ejs', {alert: true});
     }
@@ -37,7 +22,7 @@ router.post('/getInformation', function(req, res, next) {
         nickname: row[3],
         size: row[4],
         allegic: row[5],
-        index: row[7]
+        index: row[row.length-1]
       }
 
       res.render('client/page2.ejs', {payload: payload});
@@ -45,8 +30,8 @@ router.post('/getInformation', function(req, res, next) {
 
   });
 
-
 });
+
 var getId = (callback) => {
   var crypto = require("crypto");
   var id = crypto.randomBytes(2).toString('hex');
@@ -57,7 +42,7 @@ var getId = (callback) => {
 
 router.post('/getId', function(req, res, next) {
   var index = parseInt(req.body.index);
-  // console.log('index: ', index);
+
   getId((id) => {
     sheets.updateCode(id, index, (err) => {
       if(err)
@@ -66,5 +51,7 @@ router.post('/getId', function(req, res, next) {
         res.render('client/page3.ejs', {code: id});
     });
   });
+
 });
+
 module.exports = router;

@@ -112,3 +112,15 @@ exports.getInformation = (key, callback) => {
     getInformationByName(key, callback);    
   }
 }
+
+var getId = (callback) => {
+  var crypto = require("crypto");
+  var id = crypto.randomBytes(2).toString('hex');
+  id = id.toLocaleLowerCase();
+
+  callback(id);
+}
+
+
+
+

@@ -24,9 +24,13 @@
           <div class="card bg-light text-center px-5py p-4">
             <h4 class="text-success py-0"><%= payload.name %>
               <br><%= payload.nickname %></h4>
-            <p class="lead text-left mx-auto">อาหารที่แพ้ :<%= payload.allegic %>
+            <p class="lead text-left mx-auto">สิ่งที่แพ้ :<%= payload.allegic %>
               <br>ไซส์เสื้อ :<%= payload.size %></p>
-            <h4 class="text-success">จ่ายเงินเรียบร้อยจ้า</h4>
+              <% if(payload.pay) { %> 
+                <h4 class="text-success">จ่ายเงินเรียบร้อยจ้า</h4>
+              <% } else { %> 
+                <h1 class="text-danger">ยังไม่จ่ายเงิน</h1>
+              <% } %>
             <div class="row">
               <div class="col-md-12">
                 <form method="post" action="/getId">

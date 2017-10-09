@@ -22,6 +22,7 @@ router.post('/getInformation', function(req, res, next) {
         nickname: row[3],
         size: row[4],
         allegic: row[5],
+        pay: (row[7] === "จ่ายแล้ว"),
         index: row[row.length-1]
       }
 

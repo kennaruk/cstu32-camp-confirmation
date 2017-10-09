@@ -46,12 +46,24 @@ router.post('/getInformation', function(req, res, next) {
 
 
 });
+var getId = (callback) => {
+  var crypto = require("crypto");
+  var id = crypto.randomBytes(2).toString('hex');
+  id = id.toLocaleLowerCase();
+
+  callback(id);
+}
 
 router.post('/getId', function(req, res, next) {
   var index = parseInt(req.body.index);
   console.log('index: ', index);
-  sheets.getCodeByIndex(index, (err, code) => {
-    res.render('client/page3.ejs', {code: code});
-  });
+  getId((id) => {
+    sheets.updateCode(id, index, (err) => {
+      if(err)
+        res.send("เกิดเหตุขัดข้อง! รบกวนติดต่อฝ่ายทะเบียนหน้างาน");
+      else
+        res.render('client/page3.ejs', {code: id});
+    });
+  }); 
 });
 module.exports = router;

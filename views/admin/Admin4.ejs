@@ -20,11 +20,11 @@
       <div class="row">
         <div class="col-md-12">
           <div class="card bg-light text-center px-5py p-4">
-            <h4 class="py-0 text-warning">ณัฐนนท์ เอวิชาภาค
-              <br>การ์ดซ่า</h4>
-            <p class="lead text-left mx-auto">อาหารที่แพ้ :&nbsp;
-              <br>ไซส์เสื้อ :&nbsp;</p>
-            <h4 class="text-warning">ยังไม่ได้จ่ายเงิน!!</h4>
+            <h4 class="py-0 text-warning"><%= payload.name %>
+              <br><%= payload.nickname %></h4>
+            <p class="lead text-left mx-auto">อาหารที่แพ้ : <%= payload.allegic %>
+              <br>ไซส์เสื้อ : <%= payload.size %></p>
+            <h1 class="text-danger">ยังไม่ได้จ่ายเงิน!!</h1>
             <div class="row">
               <div class="col-md-12">
                 <a class="btn w-75 m-3 btn-success" href="">จ่ายเงินเรียบร้อยจ้า</a>

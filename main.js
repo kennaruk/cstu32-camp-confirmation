@@ -184,7 +184,13 @@ exports.getDataByCode = (code, callback) => {
         console.log('No data found.');
         callback('data not found', null);
       } else {
-        callback(null, rows[0]);
+        for(var i = 0 ; i < rows.length ; i++) {
+          if(rows[i][6] === code) {
+            callback(null, rows[i]);
+            return;
+          }
+        }
+        callback('not match any code', null);
       }
     });
   });

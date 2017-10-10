@@ -197,6 +197,32 @@ exports.getDataByCode = (code, callback) => {
   });
 }
 
+exports.getDataByIndex = (index, callback) => {
+  var readRange = 'A'+(index+2)+':I'+(index+2);  
+  
+  authentication.authenticate().then((auth) => {
+    sheets.spreadsheets.values.get({
+      auth: auth,
+      spreadsheetId: spreadsheetId,
+      range: readRange, 
+    }, (err, response) => {
+      if (err) {
+        console.log('The API returned an error: ' + err);
+        callback(err, null);
+        return;
+      }
+      var rows = response.values;
+      if (rows.length === 0) {
+        console.log('No data found.');
+        callback('data not found', null);
+      } else {
+        rows[0].push(index);
+        callback(null, rows[0]);
+      }
+    });
+  });
+}
+
 exports.updateShirtByIndex = (index, callback) => { 
   var updateRange = 'I'+(index+2);
 

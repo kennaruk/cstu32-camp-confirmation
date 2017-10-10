@@ -24,24 +24,14 @@
               <br><%= payload.nickname %></h4>
             <p class="lead text-left mx-auto">อาหารที่แพ้ :<%= payload.allegic%>
               <br>ไซส์เสื้อ :<%= payload.size%></p>
-              <% if(payload.status === 'จ่ายแล้ว'){ %>
-            <h4 class="text-success">จ่ายเงินเรียบร้อยจ้า</h4>
-              <% }else if(payload.status === 'ยังไม่จ่าย'){ %>
-            <h1 class="text-danger">ยังไม่ได้จ่ายเงิน!!</h1>
-              <% } %>
+            <h4 class="text-success" id="paid" >จ่ายเงินเรียบร้อยจ้า</h4>
+            <h1 class="text-danger" id= "unpaid" >ยังไม่ได้จ่ายเงิน!!</h1>
             <div class="row">
-              <input type="hidden" id="index" value="<%=payload.index%>">
-               <% if(payload.status === 'จ่ายแล้ว'){ %>
               <div class="col-md-12">
-                <a class="btn w-75 m-3 btn-success">รับเสื้อเรียบร้อยเด้อ</a>
+                <a class="btn w-30 m-3 btn-success" id="money-btn-1" style="color: white; text-decoration: underline; cursor: pointer;" >จ่ายเงินเรียบร้อยจ้า</a>
+                <a class="btn w-30 m-3 btn-danger" id="money-btn-2"  style="padding: 9px 50px 9px 50px; color: white; text-decoration: underline; cursor: pointer;" >ค้างชำระ</a>
+                <a class="btn w-75 m-3 btn-success" id="get-shirt" style="color: white; text-decoration: underline; cursor: pointer;">รับเสื้อเรียบร้อยเด้อ</a>                
               </div>
-              <% } else if(payload.status === 'ยังไม่จ่าย'){ %>
-              <div class="col-md-12">
-                <a class="btn w-30 m-3 btn-success" id="money-btn-1"  href="#">จ่ายเงินเรียบร้อยจ้า</a>
-                <a class="btn w-30 m-3 btn-danger" id="money-btn-2"  style="padding: 9px 50px 9px 50px;"  href="#">ค้างชำระ</a>
-                <a class="btn w-75 m-3 btn-success" id="get-shirt" href="#">รับเสื้อเรียบร้อยเด้อ</a>                
-              </div>
-              <% } %>
             </div>
           </div>
         </div>
@@ -56,37 +46,70 @@
 <script> 
   $(function () {
       
-      $("#get-shirt").hide();
+      <% if( (payload.status === 'จ่ายแล้ว')){ %>  
+        $('#unpaid').hide();
+        $('#money-btn-1').hide();
+        $('#money-btn-2').hide();
+      <% } else{ %>
+        $("#get-shirt").hide();
+         $('#paid').hide();
+        <% } %>
 
       function swapButton() {
         $("#money-btn-1").hide();
         $("#money-btn-2").hide();
         $("#get-shirt").show();
+         $('#unpaid').hide();
+          $('#paid').show();
+      }
+      function swapButtonunpaid() {
+        $("#money-btn-1").hide();
+        $("#money-btn-2").hide();
+        $("#get-shirt").show();
       }
 
-      var index = $('#index').val();
-      console.log(index);
+
+      var index = <%=payload.index%>;
+
       $("#money-btn-1").click(function(){
         swapButton();
          $.ajax({
                 url: '/admin/info-money',
                 type:'POST',
-                data: index,
-                success: function () {
-                    swal("เย้!", "You clicked the button!", "success");
+                data: {index : index},
+                success: function (success) {
+                   if(success === '0'){
+                     alert("มีบางอย่างผิดพลาด");
+                     window.location.href = '/admin/confirm' ;  
+                    }else{
+                      alert("จ่ายเงินเรียบร้อย");
+                      $('#unpaid').hide();
+                      $('#paid').show();
+                    }
                 }
             });
       });
+
       $("#money-btn-2").click(function(){
-        swapButton();
+        swapButtonunpaid();
       });
+
       $("#get-shirt").click(function(){
            $.ajax({
                 url: '/admin/info-shirt',
                 type:'POST',
-                data : index,
-                success: function () {
-                    swal("เย้!", "You clicked the button!", "success");
+                data :  {index : index},
+                success: function (success) {
+                    if(success === '0'){
+                     alert("มีบางอย่างผิดพลาด");                      
+                     window.location.href = '/admin/confirm' ;  
+                    }else{
+                      alert("รับเสื้อเรียบร้อยแล้วครับ");  
+                     window.location.href = '/admin/success/'+index ;  
+                    }
+                },
+                error: (err) => {
+                  console.log(err);
                 }
             });
       });

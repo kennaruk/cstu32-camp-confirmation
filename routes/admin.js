@@ -46,16 +46,28 @@ router.get('/confirm', auth, function(req,res,next){
   res.render('admin/Admin2.ejs');
 });
 
-router.get('/info', function(req,res,next){
+router.get('/info',auth, function(req,res,next){
   res.render('admin/Admin3.ejs');
 });
 
-router.get('/info-red', function(req,res,next){
+router.get('/info-red',auth, function(req,res,next){
   res.render('admin/Admin4.ejs');
 });
 
-router.get('/success', auth, function(req,res,next){
-  res.render('admin/Admin5.ejs');
+router.get('/success/:index', auth, function(req,res,next){
+  var index = parseInt(req.params.index);
+  sheets.getDataByIndex(index, (err, data) => {
+    if(err){
+      res.redirect('/admin/confirm');
+    } else {
+       var payload = {
+        name: data[2],
+        nickname: data[3],
+      }
+
+      console.log(data);
+      res.render('admin/Admin5.ejs',{payload : payload});
+  }});
 });
 
 router.post('/login', function(req, res, next) {
@@ -93,7 +105,7 @@ router.post('/confirm', function(req, res, next) {
         index: data[data.length-1]
       }
         if(data[8]==='รับเสื้อแล้ว'){
-          res.redirect('/admin/success');
+          res.redirect('/admin/success/'+payload.index);
         }else{
           res.render('admin/Admin3.ejs', {payload: payload });
         }      
@@ -102,13 +114,24 @@ router.post('/confirm', function(req, res, next) {
 });
 
 router.post('/info-shirt', function(req, res, next) {
-   var index = req.body;
-   console.log(index+"111");
+   var index = parseInt(req.body.index);
+    sheets.updateShirtByIndex(index, (err, data) => {
+    if(err){
+      res.send('0');
+    } else {   
+      res.send('shirt okay');
+    }
+  })
 })
 
 router.post('/info-money', function(req, res, next) {
-   var index = req.body;
-   console.log(index+"222");
+   var index = parseInt(req.body.index);
+    sheets.updateMoneyByIndex(index, (err, data) => {
+    if(err){
+      res.send('0');
+    }
+     res.send('money okay');
+  })
   
 })
 

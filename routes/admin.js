@@ -65,7 +65,7 @@ router.get('/success/:index', auth, function(req,res,next){
         nickname: data[3],
       }
 
-      console.log(data);
+      // console.log(data);
       res.render('admin/Admin5.ejs',{payload : payload});
   }});
 });

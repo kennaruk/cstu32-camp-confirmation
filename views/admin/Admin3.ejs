@@ -30,16 +30,16 @@
             <h1 class="text-danger">ยังไม่ได้จ่ายเงิน!!</h1>
               <% } %>
             <div class="row">
+              <input type="hidden" id="index" value="<%=payload.index%>">
                <% if(payload.status === 'จ่ายแล้ว'){ %>
-              <input type="hidden" name="index" value="<%=payload.index%>">
               <div class="col-md-12">
                 <a class="btn w-75 m-3 btn-success">รับเสื้อเรียบร้อยเด้อ</a>
               </div>
               <% } else if(payload.status === 'ยังไม่จ่าย'){ %>
               <div class="col-md-12">
-                <a class="btn w-30 m-3 btn-success" id="money-btn-1" onClick="swapButton()" href="#">จ่ายเงินเรียบร้อยจ้า</a>
-                <a class="btn w-30 m-3 btn-danger" id="money-btn-2" onClick="swapButton()" style="padding: 9px 50px 9px 50px;" >ค้างชำระ</a>
-                <a class="btn w-75 m-3 btn-success" id="get-shirt">รับเสื้อเรียบร้อยเด้อ</a>                
+                <a class="btn w-30 m-3 btn-success" id="money-btn-1"  href="#">จ่ายเงินเรียบร้อยจ้า</a>
+                <a class="btn w-30 m-3 btn-danger" id="money-btn-2"  style="padding: 9px 50px 9px 50px;"  href="#">ค้างชำระ</a>
+                <a class="btn w-75 m-3 btn-success" id="get-shirt" href="#">รับเสื้อเรียบร้อยเด้อ</a>                
               </div>
               <% } %>
             </div>
@@ -54,12 +54,43 @@
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script> 
-  $("#get-shirt").hide();
-function swapButton() {
-    $("#money-btn-1").hide();
-    $("#money-btn-2").hide();
-    $("#get-shirt").show();
-  }
+  $(function () {
+      
+      $("#get-shirt").hide();
+
+      function swapButton() {
+        $("#money-btn-1").hide();
+        $("#money-btn-2").hide();
+        $("#get-shirt").show();
+      }
+
+      var index = $('#index').val();
+      console.log(index);
+      $("#money-btn-1").click(function(){
+        swapButton();
+         $.ajax({
+                url: '/admin/info-money',
+                type:'POST',
+                data: index,
+                success: function () {
+                    swal("เย้!", "You clicked the button!", "success");
+                }
+            });
+      });
+      $("#money-btn-2").click(function(){
+        swapButton();
+      });
+      $("#get-shirt").click(function(){
+           $.ajax({
+                url: '/admin/info-shirt',
+                type:'POST',
+                data : index,
+                success: function () {
+                    swal("เย้!", "You clicked the button!", "success");
+                }
+            });
+      });
+  });
 </script>
   
 

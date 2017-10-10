@@ -23,8 +23,8 @@ router.use(session({
 }));
 
 function checkuser(username,password){
-  if((user1.username.includes(username) && user1.password.includes(password) )||
-  (user2.username.includes(username) && user2.password.includes(password)) ){
+  if((user1.username === username && user1.password === password )||
+  (user2.username === username && user2.password === password )){
     return true;
   }
     return false; 
@@ -65,14 +65,14 @@ router.post('/login', function(req, res, next) {
 
  if (!username || !password) {
    //TODO:error plz edit
-      res.redirect('/');
+      res.redirect('/admin');
   } else {
     //check username password admin
     if(checkuser(username,password)){
       req.session.admin = true;
       res.redirect('/admin/confirm');
     }else{
-      res.redirect('/');
+      res.redirect('/admin');
     }   
   }
 });
@@ -90,17 +90,27 @@ router.post('/confirm', function(req, res, next) {
         size: data[4],
         allegic: data[5],
         status : data[7],
-        index: data[9]
+        index: data[data.length-1]
       }
-        res.render('admin/Admin3.ejs', {payload: payload });
-     
-      
+        if(data[8]==='รับเสื้อแล้ว'){
+          res.redirect('/admin/success');
+        }else{
+          res.render('admin/Admin3.ejs', {payload: payload });
+        }      
     }
-
   })
-
 });
 
+router.post('/info-shirt', function(req, res, next) {
+   var index = req.body;
+   console.log(index+"111");
+})
+
+router.post('/info-money', function(req, res, next) {
+   var index = req.body;
+   console.log(index+"222");
+  
+})
 
 // Logout endpoint
 router.post('/logout', function (req, res) {

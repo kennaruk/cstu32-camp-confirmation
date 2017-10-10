@@ -190,7 +190,7 @@ exports.getDataByCode = (code, callback) => {
   });
 }
 
-exports.updateShirtByIndex = (index, callback) { 
+exports.updateShirtByIndex = (index, callback) => { 
   var updateRange = 'I'+(index+2);
 
   authentication.authenticate().then((auth) => {
@@ -215,7 +215,7 @@ exports.updateShirtByIndex = (index, callback) {
   });
 }
 
-exports.updateMoneyByIndex = (index, callback) { 
+exports.updateMoneyByIndex = (index, callback) => { 
   var updateRange = 'H'+(index+2);
 
   authentication.authenticate().then((auth) => {

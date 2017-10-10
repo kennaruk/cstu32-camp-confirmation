@@ -32,10 +32,10 @@ function getData(auth) {
 //     getData(auth);
 // });
 
-const spreadsheetId = '1p3a80RSb-q8bhZ1rS2inQtle5eYAr62JL7YPC5em868';
-const sheet = 'Sheet1!';
-// const spreadsheetId = '1I9BvHPQlxsIAVxBZWXqAry0Fdu0tePcttAiJ2gR8FRY';
-// const sheet = 'Testing!';
+// const spreadsheetId = '1p3a80RSb-q8bhZ1rS2inQtle5eYAr62JL7YPC5em868';
+// const sheet = 'Sheet1!';
+const spreadsheetId = '1I9BvHPQlxsIAVxBZWXqAry0Fdu0tePcttAiJ2gR8FRY';
+const sheet = 'Testing!';
 const range = sheet+'A2:I';
 const sheets = google.sheets('v4');
 

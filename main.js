@@ -184,13 +184,46 @@ exports.getDataByCode = (code, callback) => {
         console.log('No data found.');
         callback('data not found', null);
       } else {
+        for(var i = 0 ; i < rows.length ; i++) {
+          if(rows[i][6] === code) {
+            rows[i].push(i);
+            callback(null, rows[i]);
+            return;
+          }
+        }
+        callback('not match any code', null);
+      }
+    });
+  });
+}
+
+exports.getDataByIndex = (index, callback) => {
+  var readRange = 'A'+(index+2)+':I'+(index+2);  
+  
+  authentication.authenticate().then((auth) => {
+    sheets.spreadsheets.values.get({
+      auth: auth,
+      spreadsheetId: spreadsheetId,
+      range: readRange, 
+    }, (err, response) => {
+      if (err) {
+        console.log('The API returned an error: ' + err);
+        callback(err, null);
+        return;
+      }
+      var rows = response.values;
+      if (rows.length === 0) {
+        console.log('No data found.');
+        callback('data not found', null);
+      } else {
+        rows[0].push(index);
         callback(null, rows[0]);
       }
     });
   });
 }
 
-exports.updateShirtByIndex = (index, callback) { 
+exports.updateShirtByIndex = (index, callback) => { 
   var updateRange = 'I'+(index+2);
 
   authentication.authenticate().then((auth) => {
@@ -215,7 +248,7 @@ exports.updateShirtByIndex = (index, callback) {
   });
 }
 
-exports.updateMoneyByIndex = (index, callback) { 
+exports.updateMoneyByIndex = (index, callback) => { 
   var updateRange = 'H'+(index+2);
 
   authentication.authenticate().then((auth) => {

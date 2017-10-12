@@ -63,6 +63,7 @@ router.get('/success/:index', auth, function(req,res,next){
        var payload = {
         name: data[2],
         nickname: data[3],
+        year : data[0]
       }
 
       console.log(data);
@@ -89,7 +90,7 @@ router.post('/login', function(req, res, next) {
   }
 });
 
-router.post('/confirm', function(req, res, next) {
+router.post('/confirm',auth, function(req, res, next) {
 
   var code = req.body.code;
   sheets.getDataByCode(code, (err, data) => {
@@ -102,7 +103,9 @@ router.post('/confirm', function(req, res, next) {
         size: data[4],
         allegic: data[5],
         status : data[7],
-        index: data[data.length-1]
+        index: data[data.length-1],
+        year : data[0]
+
       }
         if(data[8]==='รับเสื้อแล้ว'){
           res.redirect('/admin/success/'+payload.index);
@@ -113,7 +116,7 @@ router.post('/confirm', function(req, res, next) {
   })
 });
 
-router.post('/info-shirt', function(req, res, next) {
+router.post('/info-shirt',auth, function(req, res, next) {
    var index = parseInt(req.body.index);
     sheets.updateShirtByIndex(index, (err, data) => {
     if(err){
@@ -124,7 +127,7 @@ router.post('/info-shirt', function(req, res, next) {
   })
 })
 
-router.post('/info-money', function(req, res, next) {
+router.post('/info-money',auth, function(req, res, next) {
    var index = parseInt(req.body.index);
     sheets.updateMoneyByIndex(index, (err, data) => {
     if(err){

@@ -6,6 +6,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
   <link rel="stylesheet" href="https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-beta.1.css" type="text/css"> </head>
+  <link href="https://fonts.googleapis.com/css?family=Athiti" rel="stylesheet">
+  <style>
+  body {
+    font-family: 'Athiti', sans-serif;
+  }
+  h4
+  {
+    font-family: 'Athiti', sans-serif;
+  }
+  h1
+  {
+    font-family: 'Athiti', sans-serif;
+  }
+  </style>
+  </head>
 
 <body class="bg-warning">
   <div class="">
@@ -31,7 +46,7 @@
               <div class="col-md-12">
                 <a class="btn w-30 m-3 btn-success" id="money-btn-1" style="color: white; text-decoration: underline; cursor: pointer;" >จ่ายเงินเรียบร้อยจ้า</a>
                 <a class="btn w-30 m-3 btn-danger" id="money-btn-2"  style="padding: 9px 50px 9px 50px; color: white; text-decoration: underline; cursor: pointer;" >ค้างชำระ</a>
-                <a class="btn w-75 m-3 btn-success" id="get-shirt" style="color: white; text-decoration: underline; cursor: pointer;">รับเสื้อเรียบร้อยเด้อ</a>                
+                <a class="btn w-75 m-3 btn-success" id="get-shirt" style="color: white; text-decoration: underline; cursor: pointer;">รับเสื้อเรียบร้อยเด้อ</a>
               </div>
             </div>
           </div>
@@ -44,10 +59,10 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script> 
+<script>
   $(function () {
-      
-      <% if( (payload.status === 'จ่ายแล้ว')){ %>  
+
+      <% if( (payload.status === 'จ่ายแล้ว')){ %>
         $('#unpaid').hide();
         $('#money-btn-1').hide();
         $('#money-btn-2').hide();
@@ -81,7 +96,7 @@
                 success: function (success) {
                    if(success === '0'){
                      alert("มีบางอย่างผิดพลาด");
-                     window.location.href = '/admin/confirm' ;  
+                     window.location.href = '/admin/confirm' ;
                     }else{
                       alert("จ่ายเงินเรียบร้อย");
                       $('#unpaid').hide();
@@ -102,11 +117,11 @@
                 data :  {index : index},
                 success: function (success) {
                     if(success === '0'){
-                     alert("มีบางอย่างผิดพลาด");                      
-                     window.location.href = '/admin/confirm' ;  
+                     alert("มีบางอย่างผิดพลาด");
+                     window.location.href = '/admin/confirm' ;
                     }else{
-                      alert("รับเสื้อเรียบร้อยแล้วครับ");  
-                     window.location.href = '/admin/success/'+index ;  
+                      alert("รับเสื้อเรียบร้อยแล้วครับ");
+                     window.location.href = '/admin/success/'+index ;
                     }
                 },
                 error: (err) => {
@@ -116,6 +131,6 @@
       });
   });
 </script>
-  
+
 
 </html>

@@ -48,7 +48,7 @@ router.get('/success/:index', auth, function(req,res,next){
         year : data[0]
       }
 
-      console.log(data);
+      // console.log(data);
       res.render('admin/Admin5.ejs',{payload : payload});
   }});
 });
@@ -89,14 +89,15 @@ router.post('/confirm',auth, function(req, res, next) {
       res.redirect('/admin/confirm');
     } else {
        var payload = {
+        year: data[0],
         name: data[2],
         nickname: data[3],
         size: data[4],
         allegic: data[5],
         status : data[7],
         index: data[data.length-1],
+        group: data[9],
         year : data[0]
-
       }
         if(data[8]==='รับเสื้อแล้ว'){
           res.redirect('/admin/success/'+payload.index);

@@ -32,8 +32,11 @@ function getData(auth) {
 //     getDataAdmin(auth);
 // });
 
-const spreadsheetId = '1p3a80RSb-q8bhZ1rS2inQtle5eYAr62JL7YPC5em868';
-const range = 'Sheet1!A2:I';
+// const spreadsheetId = '1p3a80RSb-q8bhZ1rS2inQtle5eYAr62JL7YPC5em868';
+// const sheet = 'Sheet1!';
+const spreadsheetId = '1I9BvHPQlxsIAVxBZWXqAry0Fdu0tePcttAiJ2gR8FRY';
+const sheet = 'Testing!';
+const range = sheet+'A2:J';
 const sheets = google.sheets('v4');
 
 exports.getDataAdmin = (callback) =>  {
@@ -150,8 +153,8 @@ exports.getInformation = (key, callback) => {
 }
 
 exports.getCodeByIndex = (index, callback) => {
-  var readRange = 'G'+(index+2)+':G'+(index+2);
-  console.log('readRange: ', readRange);
+  var readRange = sheet+'G'+(index+2)+':G'+(index+2);
+  // console.log('readRange: ', readRange);
   authentication.authenticate().then((auth) => {
     sheets.spreadsheets.values.get({
       auth: auth,
@@ -174,7 +177,7 @@ exports.getCodeByIndex = (index, callback) => {
 }
 
 exports.updateCode = (code, index, callback) => {
-  var updateRange = 'G'+(index+2);
+  var updateRange = sheet+'G'+(index+2);
   // console.log('updateRange: ', updateRange);
 
   authentication.authenticate().then((auth) => {
@@ -230,7 +233,7 @@ exports.getDataByCode = (code, callback) => {
 }
 
 exports.getDataByIndex = (index, callback) => {
-  var readRange = 'A'+(index+2)+':I'+(index+2);  
+  var readRange = sheet+'A'+(index+2)+':I'+(index+2);  
   
   authentication.authenticate().then((auth) => {
     sheets.spreadsheets.values.get({
@@ -256,7 +259,7 @@ exports.getDataByIndex = (index, callback) => {
 }
 
 exports.updateShirtByIndex = (index, callback) => { 
-  var updateRange = 'I'+(index+2);
+  var updateRange = sheet+'I'+(index+2);
 
   authentication.authenticate().then((auth) => {
     sheets.spreadsheets.values.update({
@@ -273,7 +276,7 @@ exports.updateShirtByIndex = (index, callback) => {
         callback(err);
         return;
       } else {
-        console.log('Update!! รับเสื้อแล้ว');
+        // console.log('Update!! รับเสื้อแล้ว');
         callback(null);
       }
     });
@@ -281,7 +284,7 @@ exports.updateShirtByIndex = (index, callback) => {
 }
 
 exports.updateMoneyByIndex = (index, callback) => { 
-  var updateRange = 'H'+(index+2);
+  var updateRange = sheet+'H'+(index+2);
 
   authentication.authenticate().then((auth) => {
     sheets.spreadsheets.values.update({
@@ -298,7 +301,7 @@ exports.updateMoneyByIndex = (index, callback) => {
         callback(err);
         return;
       } else {
-        console.log('Update!! จ่ายเงินแล้ว');
+        // console.log('Update!! จ่ายเงินแล้ว');
         callback(null);
       }
     });

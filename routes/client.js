@@ -18,10 +18,13 @@ router.post('/getInformation', function(req, res, next) {
      res.render('client/page3.ejs', {code: row[6]});
     else {
       var payload = {
+        year: row[0],
         name: row[2],
         nickname: row[3],
         size: row[4],
         allegic: row[5],
+        pay: (row[7] === "จ่ายแล้ว"),
+        group: row[9],
         index: row[row.length-1]
       }
 

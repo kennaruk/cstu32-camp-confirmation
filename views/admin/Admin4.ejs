@@ -6,6 +6,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
   <link rel="stylesheet" href="https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-beta.1.css" type="text/css"> </head>
+  <link href="https://fonts.googleapis.com/css?family=Athiti" rel="stylesheet">
+  <style>
+  body
+  {
+    font-family: 'Athiti', sans-serif;
+  }
+  h4
+  {
+    font-family: 'Athiti', sans-serif;
+  }
+  h1
+  {
+    font-family: 'Athiti', sans-serif;
+  }
+  </style>
+  </head>
 
 <body class="bg-warning">
   <div class="">
@@ -20,11 +36,11 @@
       <div class="row">
         <div class="col-md-12">
           <div class="card bg-light text-center px-5py p-4">
-            <h4 class="py-0 text-warning">ณัฐนนท์ เอวิชาภาค
-              <br>การ์ดซ่า</h4>
-            <p class="lead text-left mx-auto">อาหารที่แพ้ :&nbsp;
-              <br>ไซส์เสื้อ :&nbsp;</p>
-            <h4 class="text-warning">ยังไม่ได้จ่ายเงิน!!</h4>
+            <h4 class="py-0 text-warning"><%= payload.name %>
+              <br><%= payload.nickname %></h4>
+            <p class="lead text-left mx-auto">อาหารที่แพ้ : <%= payload.allegic %>
+              <br>ไซส์เสื้อ : <%= payload.size %></p>
+            <h1 class="text-danger">ยังไม่ได้จ่ายเงิน!!</h1>
             <div class="row">
               <div class="col-md-12">
                 <a class="btn w-75 m-3 btn-success" href="">จ่ายเงินเรียบร้อยจ้า</a>

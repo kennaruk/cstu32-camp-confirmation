@@ -32,8 +32,11 @@ function getData(auth) {
 //     getData(auth);
 // });
 
-const spreadsheetId = '1p3a80RSb-q8bhZ1rS2inQtle5eYAr62JL7YPC5em868';
-const range = 'Sheet1!A2:I';
+// const spreadsheetId = '1p3a80RSb-q8bhZ1rS2inQtle5eYAr62JL7YPC5em868';
+// const sheet = 'Sheet1!';
+const spreadsheetId = '1I9BvHPQlxsIAVxBZWXqAry0Fdu0tePcttAiJ2gR8FRY';
+const sheet = 'Testing!';
+const range = sheet+'A2:J';
 const sheets = google.sheets('v4');
 
 getInformationById = (id, callback) => {
@@ -118,8 +121,8 @@ exports.getInformation = (key, callback) => {
 }
 
 exports.getCodeByIndex = (index, callback) => {
-  var readRange = 'G'+(index+2)+':G'+(index+2);
-  console.log('readRange: ', readRange);
+  var readRange = sheet+'G'+(index+2)+':G'+(index+2);
+  // console.log('readRange: ', readRange);
   authentication.authenticate().then((auth) => {
     sheets.spreadsheets.values.get({
       auth: auth,
@@ -142,7 +145,7 @@ exports.getCodeByIndex = (index, callback) => {
 }
 
 exports.updateCode = (code, index, callback) => {
-  var updateRange = 'G'+(index+2);
+  var updateRange = sheet+'G'+(index+2);
   // console.log('updateRange: ', updateRange);
 
   authentication.authenticate().then((auth) => {
@@ -184,6 +187,39 @@ exports.getDataByCode = (code, callback) => {
         console.log('No data found.');
         callback('data not found', null);
       } else {
+        for(var i = 0 ; i < rows.length ; i++) {
+          if(rows[i][6] === code) {
+            rows[i].push(i);
+            callback(null, rows[i]);
+            return;
+          }
+        }
+        callback('not match any code', null);
+      }
+    });
+  });
+}
+
+exports.getDataByIndex = (index, callback) => {
+  var readRange = sheet+'A'+(index+2)+':I'+(index+2);  
+  
+  authentication.authenticate().then((auth) => {
+    sheets.spreadsheets.values.get({
+      auth: auth,
+      spreadsheetId: spreadsheetId,
+      range: readRange, 
+    }, (err, response) => {
+      if (err) {
+        console.log('The API returned an error: ' + err);
+        callback(err, null);
+        return;
+      }
+      var rows = response.values;
+      if (rows.length === 0) {
+        console.log('No data found.');
+        callback('data not found', null);
+      } else {
+        rows[0].push(index);
         callback(null, rows[0]);
       }
     });
@@ -191,7 +227,7 @@ exports.getDataByCode = (code, callback) => {
 }
 
 exports.updateShirtByIndex = (index, callback) => { 
-  var updateRange = 'I'+(index+2);
+  var updateRange = sheet+'I'+(index+2);
 
   authentication.authenticate().then((auth) => {
     sheets.spreadsheets.values.update({
@@ -208,7 +244,7 @@ exports.updateShirtByIndex = (index, callback) => {
         callback(err);
         return;
       } else {
-        console.log('Update!! รับเสื้อแล้ว');
+        // console.log('Update!! รับเสื้อแล้ว');
         callback(null);
       }
     });
@@ -216,7 +252,7 @@ exports.updateShirtByIndex = (index, callback) => {
 }
 
 exports.updateMoneyByIndex = (index, callback) => { 
-  var updateRange = 'H'+(index+2);
+  var updateRange = sheet+'H'+(index+2);
 
   authentication.authenticate().then((auth) => {
     sheets.spreadsheets.values.update({
@@ -233,7 +269,7 @@ exports.updateMoneyByIndex = (index, callback) => {
         callback(err);
         return;
       } else {
-        console.log('Update!! จ่ายเงินแล้ว');
+        // console.log('Update!! จ่ายเงินแล้ว');
         callback(null);
       }
     });

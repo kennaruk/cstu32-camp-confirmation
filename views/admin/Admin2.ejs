@@ -6,6 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
   <link rel="stylesheet" href="https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-beta.1.css" type="text/css"> </head>
+  <link href="https://fonts.googleapis.com/css?family=Athiti" rel="stylesheet">
+  <style>
+  body {
+    font-family: 'Athiti', sans-serif;
+  }
+  </style>
+  </head>
 
 <body class="bg-warning">
   <br>
@@ -21,16 +28,15 @@
               <br>
               <div class="row">
                 <div class="col-md-12 m-0 p-0">
-                  <form class="" method="post" action="https://formspree.io/">
+                  <form class="" method="post" action="/admin/confirm">
                     <div class="form-group w-75 mx-auto">
-                      <input type="email" name="email" class="form-control form-control-lg" placeholder="Confirmation Code"> </div>
-                  </form>
+                      <input type="text" name="code" class="form-control form-control-lg" placeholder="Confirmation Code" maxlength="4"required> </div>
                 </div>
               </div>
             </div>
-            <form class="" method="post" action="https://formspree.io/">
               <button type="submit" class="btn w-75 active btn-block btn-success mx-auto">Confirm</button>
-              <br> </form>
+              <br>
+                  </form>
           </div>
         </div>
       </div>

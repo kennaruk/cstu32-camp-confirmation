@@ -29,12 +29,44 @@ function getData(auth) {
 }
 
 // authentication.authenticate().then((auth)=>{
-//     getData(auth);
+//     getDataAdmin(auth);
 // });
 
 const spreadsheetId = '1p3a80RSb-q8bhZ1rS2inQtle5eYAr62JL7YPC5em868';
 const range = 'Sheet1!A2:I';
 const sheets = google.sheets('v4');
+
+exports.getDataAdmin = (callback) =>  {
+  authentication.authenticate().then((auth) => {
+  sheets.spreadsheets.values.get({
+    auth: auth,
+    spreadsheetId: '1iiSfNAWCohSUrETuVu-xCqqKOoXB2aE38aWNvjVOrR0',
+    range: 'Sheet1!A1:D', //Change Sheet1 if your worksheet's name is something else
+    // valueInputOption: 'USER_ENTERED',
+  },  (err, response) => {
+      if (err) {
+        console.log('The API returned an error: ' + err);
+        return;
+      } 
+      var rows = response.values;
+      if (rows.length === 0) {
+        console.log('No data found.');
+      } else {
+        
+        for (var i = 0; rows.length; i++) {
+          var row = rows[i];
+          if(row === undefined){
+            callback(null, data);
+            return;
+          }
+        var data = row;
+        }
+        callback('not found', null);
+        return;
+      }
+    });
+  });
+}
 
 getInformationById = (id, callback) => {
   authentication.authenticate().then((auth) => {

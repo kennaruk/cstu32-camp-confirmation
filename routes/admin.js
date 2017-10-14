@@ -6,30 +6,12 @@ var sheets = require('../main.js');
 /* GET users listing. */
 var session = require('express-session');
 
-const user1 = {
-  username: 'Admin1',
-  password: 'cstu32admin1',
-} 
-
-const user2 = {
-  username: 'Admin2',
-  password: 'cstu32admin2',
-} 
-
 router.use(session({
     secret: 'CSTU32',
     resave: true,
     saveUninitialized: true
 }));
 
-function checkuser(username,password){
-  if((user1.username === username && user1.password === password )||
-  (user2.username === username && user2.password === password )){
-    return true;
-  }
-    return false; 
-}
- 
 // Authentication and Authorization Middleware
 var auth = function(req, res, next) {
   if (req.session.admin)
@@ -80,13 +62,22 @@ router.post('/login', function(req, res, next) {
    //TODO:error plz edit
       res.redirect('/admin');
   } else {
-    //check username password admin
-    if(checkuser(username,password)){
-      req.session.admin = true;
-      res.redirect('/admin/confirm');
-    }else{
-      res.redirect('/admin');
-    }   
+      //check username password admin
+      sheets.getDataAdmin((err, data) => {
+      if(err){
+        console.log("Get Username Password Admin Err");
+      }else{
+        var usernameadmin = data;
+
+        if((usernameadmin[0] === username && usernameadmin[1] === password )||
+        (usernameadmin[2] === username && usernameadmin[3] === password )){
+          req.session.admin = true;
+          res.redirect('/admin/confirm');
+        }else{
+          res.redirect('/admin');
+        }   
+      }
+    });
   }
 });
 

@@ -36,7 +36,7 @@ function getData(auth) {
 // const sheet = 'Sheet1!';
 const spreadsheetId = '1I9BvHPQlxsIAVxBZWXqAry0Fdu0tePcttAiJ2gR8FRY';
 const sheet = 'Testing!';
-const range = sheet+'A2:J';
+const range = sheet+'A2:K';
 const sheets = google.sheets('v4');
 
 getInformationById = (id, callback) => {
@@ -108,16 +108,16 @@ getInformationByName = (name, callback) => {
 
 exports.getInformation = (key, callback) => {
   key = key.trim();
-  var numberRegex = '\\d+';
-  if(key.match(numberRegex)) {
+  // var numberRegex = '\\d+';
+  // if(key.match(numberRegex)) {
     // console.log('by number!')
     getInformationById(key, callback);
       
-  }
-  else {
+  // }
+  // else {
     // console.log('by name!');
-    getInformationByName(key, callback);    
-  }
+    // getInformationByName(key, callback);    
+  // }
 }
 
 exports.getCodeByIndex = (index, callback) => {

@@ -1,0 +1,13 @@
+<div class="col-md-12">
+    <% if(payload.code === "SPACE") { %>
+        <input type="hidden" name="index" value="<%=payload.index%>">
+        <button class="btn w-75 m-3 btn-success" id="gen-code-btn">รับโค้ด</a>  
+    <% } else { %> 
+        <div class="col-md-12">
+            <p class="card-text p-y-1">กรุณาแจ้งฝ่ายลงทะเบียนหน้างานด้วยโค้ด</p>                
+            <h1 class="p-5 border border-success w-75 mx-auto bg-warning text-white display-5"><%= payload.code %></h1>
+            <a class="btn w-75 m-3 btn-success" href="/">กลับหน้าแรก</a>
+        </div>
+    <% } %>
+</div>
+    

@@ -21,7 +21,6 @@ router.get('/', function(req, res, next) {
 
 router.post('/information', function(req, res, next) {
   var id = req.body.id;
-  console.log('id: ', id);
   
   sheets.getInformation(id, (err, row) => {
     if(err) {
@@ -55,7 +54,7 @@ router.get('/:id/information', function(req, res, next) {
         car: row[CAR_INDEX],
         index: row[ROW_INDEX]
       }
-      console.log('payload: ', payload);
+      
       res.render('client/page2.ejs', {payload: payload});
     }
   });

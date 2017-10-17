@@ -1,18 +1,8 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
-  <link rel="stylesheet" href="https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-beta.1.css" type="text/css"> </head>
-  <link href="https://fonts.googleapis.com/css?family=Athiti" rel="stylesheet">
-  <style>
-  body {
-    font-family: 'Athiti', sans-serif;
-  }
-  </style>
-  </head>
+<% include ../admin/headerAd.ejs %>
+
 
 <body class="bg-warning">
   <br>
@@ -28,9 +18,9 @@
               <br>
               <div class="row">
                 <div class="col-md-12 m-0 p-0">
-                  <form class="" method="post" action="/admin/confirm">
+                  <form class="" method="post" action="/admin/confirm" id="confirmform">
                     <div class="form-group w-75 mx-auto">
-                      <input type="text" name="code" class="form-control form-control-lg" placeholder="Confirmation Code" maxlength="4"required> </div>
+                      <input type="text" id="code" class="form-control form-control-lg" placeholder="Confirmation Code" maxlength="4"required> </div>
                 </div>
               </div>
             </div>
@@ -42,9 +32,37 @@
       </div>
     </div>
   </div>
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+  <% include ../admin/scriptAd.ejs %>
 </body>
+<script>
+  $(function(){
 
+    var frm = $('#confirmform');
+
+    frm.submit(function (ev) {
+          ev.preventDefault();
+            var code = $('#code').val();
+            
+
+            var formData = { code : code };
+
+          $.ajax({
+              url: frm.attr('action'),
+              type: frm.attr('method'),
+              data:  formData,
+              success: function (success) {
+                if(success === '0'){
+                  swal( 'แย่จัง!!!','username หรือ password ผิดพลาด!','error' ).then(() => {
+                    window.location = '/admin/' ;
+                  });
+                }else{
+                  swal("เย้!!!", "ไปหน้า Confirm กัน!", "success").then(() => {
+                    window.location = '/admin/confirm';
+                  });
+                }
+              } 
+          });
+    })
+  });
+</script>
 </html>

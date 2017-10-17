@@ -60,7 +60,8 @@ router.post('/login', function(req, res, next) {
 
  if (!username || !password) {
    //TODO:error plz edit
-      res.redirect('/admin');
+      res.send('0');
+      // res.redirect('/admin/');
   } else {
       //check username password admin
       sheets.getDataAdmin((err, data) => {
@@ -72,9 +73,11 @@ router.post('/login', function(req, res, next) {
         if((usernameadmin[0] === username && usernameadmin[1] === password )||
         (usernameadmin[2] === username && usernameadmin[3] === password )){
           req.session.admin = true;
-          res.redirect('/admin/confirm');
+          res.send('login ok');
+          // res.redirect('/admin/confirm');
         }else{
-          res.redirect('/admin');
+          res.send('0');
+          // res.redirect('/admin');
         }   
       }
     });
@@ -84,8 +87,10 @@ router.post('/login', function(req, res, next) {
 router.post('/confirm',auth, function(req, res, next) {
 
   var code = req.body.code;
+  console.log(code);
   sheets.getDataByCode(code, (err, data) => {
     if(err){
+      console.log(err);
       res.redirect('/admin/confirm');
     } else {
        var payload = {
@@ -100,8 +105,10 @@ router.post('/confirm',auth, function(req, res, next) {
         year : data[0]
       }
         if(data[8]==='รับเสื้อแล้ว'){
+          console.log("รับ");
           res.redirect('/admin/success/'+payload.index);
         }else{
+           console.log("ไม่รับ");
           res.render('admin/Admin3.ejs', {payload: payload });
         }      
     }

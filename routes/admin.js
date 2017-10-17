@@ -2,9 +2,21 @@ var express = require('express');
 var router = express.Router();
 var sheets = require('../main.js');
 
-
 /* GET users listing. */
 var session = require('express-session');
+
+const YEAR_INDEX = 0,
+  ID_INDEX = 1,
+  NAME_INDEX = 2,
+  NICKNAME_INDEX = 3,
+  SIZE_INDEX = 4,
+  ALLERGIC_INDEX = 5,
+  CODE_INDEX = 6,
+  PAYMENT_INDEX = 7,
+  SHIRT_INDEX = 8,
+  GROUP_INDEX = 9,
+  CAR_INDEX = 10,
+  ROW_INDEX = 11;
 
 router.use(session({
     secret: 'CSTU32',
@@ -28,30 +40,54 @@ router.get('/confirm', auth, function(req,res,next){
   res.render('admin/Admin2.ejs');
 });
 
-router.get('/info',auth, function(req,res,next){
-  res.render('admin/Admin3.ejs');
-});
+router.get('/:code/information',auth, function(req,res,next){
+  var code = req.params.code;
 
-router.get('/info-red',auth, function(req,res,next){
-  res.render('admin/Admin4.ejs');
-});
-
-router.get('/success/:index', auth, function(req,res,next){
-  var index = parseInt(req.params.index);
-  sheets.getDataByIndex(index, (err, data) => {
-    if(err){
+    sheets.getDataByCode(id, (err, row) => {
+    if(err) {
       res.redirect('/admin/confirm');
     } else {
-       var payload = {
-        name: data[2],
-        nickname: data[3],
-        year : data[0]
-      }
+      var payload = {
+        year: row[YEAR_INDEX],
+        id: row[ID_INDEX],
+        name: row[NAME_INDEX],
+        nickname: row[NICKNAME_INDEX],
+        size: row[SIZE_INDEX],
+        allegic: row[ALLERGIC_INDEX],
+        code: row[CODE_INDEX],
+        pay: row[PAYMENT_INDEX],
+        group: row[GROUP_INDEX],
+        shirt: row[SHIRT_INDEX],
+        group: row[GROUP_INDEX],
+        car: row[CAR_INDEX],
+        index: row[ROW_INDEX],
 
-      // console.log(data);
-      res.render('admin/Admin5.ejs',{payload : payload});
-  }});
+      }
+       res.render('admin/Admin3.ejs', {payload: payload});
+    }
+  });
 });
+
+// router.get('/info-red',auth, function(req,res,next){
+//   res.render('admin/Admin4.ejs');
+// });
+
+// router.get('/success/:index', auth, function(req,res,next){
+//   var index = parseInt(req.params.index);
+//   sheets.getDataByIndex(index, (err, data) => {
+//     if(err){
+//       res.redirect('/admin/confirm');
+//     } else {
+//        var payload = {
+//         name: data[2],
+//         nickname: data[3],
+//         year : data[0]
+//       }
+
+//       // console.log(data);
+//       res.render('admin/Admin5.ejs',{payload : payload});
+//   }});
+// });
 
 router.post('/login', function(req, res, next) {
 
@@ -60,12 +96,13 @@ router.post('/login', function(req, res, next) {
 
  if (!username || !password) {
    //TODO:error plz edit
-      res.send('0');
+      res.send({check: false, msg: "username password not pattern"});   
       // res.redirect('/admin/');
   } else {
       //check username password admin
       sheets.getDataAdmin((err, data) => {
       if(err){
+        res.send({check: false, msg: " Get Username Password Admin Err"});
         console.log("Get Username Password Admin Err");
       }else{
         var usernameadmin = data;
@@ -73,10 +110,10 @@ router.post('/login', function(req, res, next) {
         if((usernameadmin[0] === username && usernameadmin[1] === password )||
         (usernameadmin[2] === username && usernameadmin[3] === password )){
           req.session.admin = true;
-          res.send('login ok');
+          res.send({check: true, masg : "login success"});
           // res.redirect('/admin/confirm');
         }else{
-          res.send('0');
+          res.send({check: false, msg: " login false"});
           // res.redirect('/admin');
         }   
       }
@@ -87,54 +124,61 @@ router.post('/login', function(req, res, next) {
 router.post('/confirm',auth, function(req, res, next) {
 
   var code = req.body.code;
-  console.log(code);
   sheets.getDataByCode(code, (err, data) => {
     if(err){
       console.log(err);
-      res.redirect('/admin/confirm');
+      res.send({err: true ,shirt: true,code : code ,  msg: "Get shirt already!"});      
+      // res.redirect('/admin/confirm');
     } else {
-       var payload = {
-        year: data[0],
-        name: data[2],
-        nickname: data[3],
-        size: data[4],
-        allegic: data[5],
-        status : data[7],
-        index: data[data.length-1],
-        group: data[9],
-        year : data[0]
+        var payload = {
+        shirt: row[SHIRT_INDEX],
+        code : row[CODE_INDEX]
       }
-        if(data[8]==='รับเสื้อแล้ว'){
-          console.log("รับ");
-          res.redirect('/admin/success/'+payload.index);
+        if(payload.shirt ==='รับเสื้อแล้ว'){
+          res.send({err: false ,shirt: true,code : code ,  msg: "Get shirt already!"});
+          // res.redirect('/admin/success/'+payload.index);
+          
         }else{
-           console.log("ไม่รับ");
-          res.render('admin/Admin3.ejs', {payload: payload });
+          res.send({err: false ,shirt: false,code : code ,  msg: "give shirt!"});
+          // res.render('admin/Admin3.ejs', {payload: payload });
         }      
     }
   })
 });
 
-router.post('/info-shirt',auth, function(req, res, next) {
+router.post('/update/shirt',auth, function(req, res, next) {
    var index = parseInt(req.body.index);
+
     sheets.updateShirtByIndex(index, (err, data) => {
     if(err){
-      res.send('0');
+      res.send({ success : false ,  msg: "give shirt!"});
     } else {   
-      res.send('shirt okay');
+      res.send({success : true  ,  msg: "give shirt!"});
     }
   })
 })
 
-router.post('/info-money',auth, function(req, res, next) {
+router.post('/update/money',auth, function(req, res, next) {
    var index = parseInt(req.body.index);
+
     sheets.updateMoneyByIndex(index, (err, data) => {
     if(err){
-      res.send('0');
+     res.send({success : false ,  msg: "give shirt!"});
     }
-     res.send('money okay');
+     res.send({success : true ,  msg: "give shirt!"});
   })
-  
+})
+
+router.post('/update/car',auth, function(req, res, next) {
+   var index = parseInt(req.body.index);
+   var car = parseInt(req.body.car);
+
+    sheets.updateMoneyByIndex(index,car, (err, data) => {
+    if(err){
+      res.send({ success : false ,  msg: "give shirt!"});
+    }
+      res.send({success : true  ,  msg: "give shirt!"});
+  })
 })
 
 // Logout endpoint

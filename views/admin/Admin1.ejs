@@ -48,14 +48,15 @@
               type: frm.attr('method'),
               data:  formData,
               success: function (success) {
-                if(success === '0'){
-                  swal( 'แย่จัง!!!','username หรือ password ผิดพลาด!','error' ).then(() => {
-                    window.location = '/admin/' ;
-                  });
-                }else{
+                if(success.check){
                   swal("เย้!!!", "ไปหน้า Confirm กัน!", "success").then(() => {
                     window.location = '/admin/confirm';
                   });
+                }else{
+                  swal( 'แย่จัง!!!','username หรือ password ผิดพลาด!','error' ).then(() => {
+                    window.location = '/admin/' ;
+                  });
+                  
                 }
               } 
           });

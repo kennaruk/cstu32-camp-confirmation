@@ -307,3 +307,28 @@ exports.updateMoneyByIndex = (index, callback) => {
     });
   });
 }
+
+exports.updateCarByIndex = (index,car, callback) => { 
+  var updateRange = sheet+'K'+(index+2);
+
+  authentication.authenticate().then((auth) => {
+    sheets.spreadsheets.values.update({
+      auth: auth,
+      spreadsheetId: spreadsheetId,
+      range: updateRange, 
+      valueInputOption: "USER_ENTERED",
+      resource: {
+        values: [["รถคันที่"+ car]]
+      } 
+    }, (err, response) => {
+      if (err) {
+        console.log('The API returned an error: ' + err);
+        callback(err);
+        return;
+      } else {
+        // console.log('Update!! จ่ายเงินแล้ว');
+        callback(null);
+      }
+    });
+  });
+}

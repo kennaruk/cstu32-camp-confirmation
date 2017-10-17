@@ -17,14 +17,26 @@
       <div class="row">
         <div class="col-md-12">
           <div class="card bg-light text-center px-5py p-4">
-            <h4 class="py-0 text-warning"><%= payload.name %>
-              <br><%= payload.nickname %> #<%= payload.year %>
-              <br><%= payload.group %></h4>
-            <p class="lead text-left mx-auto">สิ่งที่แพ้ :<%= payload.allegic%>
-              <br>ไซส์เสื้อ :<%= payload.size%></p>
+            <h4 class="py-0 text-warning">
+              <%= payload.name %><br>
+              <%= payload.nickname %> #<%= payload.year %><br>
+              <%= payload.group %>
+            </h4>
+            <p class="lead text-left mx-auto">
+              สิ่งที่แพ้ :<%= payload.allegic%>
+              <br>ไซส์เสื้อ :<%= payload.size%>
+            </p>
             <h4 class="text-success" id="paid" >จ่ายเงินเรียบร้อยจ้า</h4>
             <h1 class="text-danger" id= "unpaid" >ยังไม่ได้จ่ายเงิน!!</h1>
-            <div class="row">
+            
+            <div class="row" id="div-car">
+              <div class="col-md-12">
+                <a class="btn w-30 m-3 btn-success" id="car1" style="color: white; text-decoration: underline; cursor: pointer;" > </a>
+                <a class="btn w-30 m-3 btn-danger" id="car2"  style="padding: 9px 50px 9px 50px; color: white; text-decoration: underline; cursor: pointer;" > </a>
+              </div>
+            </div>
+
+            <div class="row" id= "div-money-shirt">
               <div class="col-md-12">
                 <a class="btn w-30 m-3 btn-success" id="money-btn-1" style="color: white; text-decoration: underline; cursor: pointer;" >จ่ายเงินเรียบร้อยจ้า</a>
                 <a class="btn w-30 m-3 btn-danger" id="money-btn-2"  style="padding: 9px 50px 9px 50px; color: white; text-decoration: underline; cursor: pointer;" >ค้างชำระ</a>
@@ -41,23 +53,45 @@
 </body>
 <script>
   $(function () {
+      // check get shirt hide all button
+      //  <% if( (payload.shirt === 'รับเสื้อแล้ว')){ %>
+      //     $('#div-car').hide();   
+      //     $('#div-money-shirt').hide(); 
+      // TODO : SHOW BUTTON BACK and ADD TEXT GET SHIRT ,NUMBER CAR
+      // <% } else{ %>
+        
 
+      //button show car [บัณฑิต , ปี1 , ปี2 , ปี3 , ปี4 , guest]
+      <% if( (payload.year === 'ปี1' || payload.year === 'ปี2')){ %>
+          $('#car1').innerHTML("รถคันที่1");
+          $('#car2').innerHTML("รถคันที่2");          
+      <% } else if( (payload.year === 'ปี4' )){ %>
+          $('#car1').innerHTML("รถคันที่3");
+          $('#car2').innerHTML("รถคันที่4");   
+      <% } else{ %>
+          $('#div-car').hide();      
+      <% } %>
+
+      //check button hide/show
       <% if( (payload.status === 'จ่ายแล้ว')){ %>
         $('#unpaid').hide();
         $('#money-btn-1').hide();
         $('#money-btn-2').hide();
       <% } else{ %>
         $("#get-shirt").hide();
-         $('#paid').hide();
+        $('#paid').hide();
         <% } %>
 
+      //button paid
       function swapButton() {
         $("#money-btn-1").hide();
         $("#money-btn-2").hide();
         $("#get-shirt").show();
-         $('#unpaid').hide();
-          $('#paid').show();
+        $('#unpaid').hide();
+        $('#paid').show();
       }
+
+      //button unpaid
       function swapButtonunpaid() {
         $("#money-btn-1").hide();
         $("#money-btn-2").hide();
@@ -67,47 +101,50 @@
 
       var index = <%=payload.index%>;
 
+      // button paid 
       $("#money-btn-1").click(function(){
         swapButton();
          $.ajax({
-                url: '/admin/info-money',
-                type:'POST',
-                data: {index : index},
-                success: function (success) {
-                   if(success === '0'){
-                     alert("มีบางอย่างผิดพลาด");
-                     window.location.href = '/admin/confirm' ;
-                    }else{
-                      alert("จ่ายเงินเรียบร้อย");
-                      $('#unpaid').hide();
-                      $('#paid').show();
-                    }
+            url: '/update/money',
+            type:'POST',
+            data: {index : index},
+            success: function (success) {
+                if(success === '0'){
+                  alert("มีบางอย่างผิดพลาด");
+                  window.location.href = '/admin/confirm' ;
+                }else{
+                  alert("จ่ายเงินเรียบร้อย");
+                  $('#unpaid').hide();
+                  $('#paid').show();
                 }
-            });
+            }
+          });
       });
 
+      // button unpaid 
       $("#money-btn-2").click(function(){
         swapButtonunpaid();
       });
 
+      // button get shirt
       $("#get-shirt").click(function(){
-           $.ajax({
-                url: '/admin/info-shirt',
-                type:'POST',
-                data :  {index : index},
-                success: function (success) {
-                    if(success === '0'){
-                     alert("มีบางอย่างผิดพลาด");
-                     window.location.href = '/admin/confirm' ;
-                    }else{
-                      alert("รับเสื้อเรียบร้อยแล้วครับ");
-                     window.location.href = '/admin/success/'+index ;
-                    }
-                },
-                error: (err) => {
-                  console.log(err);
-                }
-            });
+        $.ajax({
+          url: '/update/shirt',
+          type:'POST',
+          data :  {index : index},
+          success: function (success) {
+              if(success === '0'){
+                alert("มีบางอย่างผิดพลาด");
+                window.location.href = '/admin/confirm' ;
+              }else{
+                alert("รับเสื้อเรียบร้อยแล้วครับ");
+                window.location.href = '/admin/success/'+index ;
+              }
+          },
+          error: (err) => {
+            console.log(err);
+          }
+        });
       });
   });
 </script>

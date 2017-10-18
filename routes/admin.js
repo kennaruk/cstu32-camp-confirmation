@@ -43,7 +43,7 @@ router.get('/confirm', auth, function(req,res,next){
 router.get('/:code/information',auth, function(req,res,next){
   var code = req.params.code;
 
-    sheets.getDataByCode(id, (err, row) => {
+    sheets.getDataByCode(code, (err, row) => {
     if(err) {
       res.redirect('/admin/confirm');
     } else {
@@ -58,7 +58,6 @@ router.get('/:code/information',auth, function(req,res,next){
         pay: row[PAYMENT_INDEX],
         group: row[GROUP_INDEX],
         shirt: row[SHIRT_INDEX],
-        group: row[GROUP_INDEX],
         car: row[CAR_INDEX],
         index: row[ROW_INDEX],
 
@@ -67,27 +66,6 @@ router.get('/:code/information',auth, function(req,res,next){
     }
   });
 });
-
-// router.get('/info-red',auth, function(req,res,next){
-//   res.render('admin/Admin4.ejs');
-// });
-
-// router.get('/success/:index', auth, function(req,res,next){
-//   var index = parseInt(req.params.index);
-//   sheets.getDataByIndex(index, (err, data) => {
-//     if(err){
-//       res.redirect('/admin/confirm');
-//     } else {
-//        var payload = {
-//         name: data[2],
-//         nickname: data[3],
-//         year : data[0]
-//       }
-
-//       // console.log(data);
-//       res.render('admin/Admin5.ejs',{payload : payload});
-//   }});
-// });
 
 router.post('/login', function(req, res, next) {
 
@@ -103,7 +81,6 @@ router.post('/login', function(req, res, next) {
       sheets.getDataAdmin((err, data) => {
       if(err){
         res.send({check: false, msg: " Get Username Password Admin Err"});
-        console.log("Get Username Password Admin Err");
       }else{
         var usernameadmin = data;
 
@@ -111,10 +88,8 @@ router.post('/login', function(req, res, next) {
         (usernameadmin[2] === username && usernameadmin[3] === password )){
           req.session.admin = true;
           res.send({check: true, masg : "login success"});
-          // res.redirect('/admin/confirm');
         }else{
           res.send({check: false, msg: " login false"});
-          // res.redirect('/admin');
         }   
       }
     });
@@ -128,30 +103,26 @@ router.post('/confirm',auth, function(req, res, next) {
     if(err){
       console.log(err);
       res.send({err: true ,shirt: true,code : code ,  msg: "Get shirt already!"});      
-      // res.redirect('/admin/confirm');
     } else {
         var payload = {
-        shirt: row[SHIRT_INDEX],
-        code : row[CODE_INDEX]
+        shirt: data[SHIRT_INDEX],
+        code : data[CODE_INDEX]
       }
         if(payload.shirt ==='รับเสื้อแล้ว'){
           res.send({err: false ,shirt: true,code : code ,  msg: "Get shirt already!"});
-          // res.redirect('/admin/success/'+payload.index);
-          
         }else{
-          res.send({err: false ,shirt: false,code : code ,  msg: "give shirt!"});
-          // res.render('admin/Admin3.ejs', {payload: payload });
-        }      
+          res.send({err: false ,shirt: false,code : code ,  msg: "give shirt!"});        }      
     }
   })
 });
 
 router.post('/update/shirt',auth, function(req, res, next) {
+
    var index = parseInt(req.body.index);
 
     sheets.updateShirtByIndex(index, (err, data) => {
     if(err){
-      res.send({ success : false ,  msg: "give shirt!"});
+      res.send({ success : false ,  msg: "err shirt!"});
     } else {   
       res.send({success : true  ,  msg: "give shirt!"});
     }
@@ -163,21 +134,21 @@ router.post('/update/money',auth, function(req, res, next) {
 
     sheets.updateMoneyByIndex(index, (err, data) => {
     if(err){
-     res.send({success : false ,  msg: "give shirt!"});
+     res.send({success : false ,  msg: "err money!"});
     }
-     res.send({success : true ,  msg: "give shirt!"});
+     res.send({success : true ,  msg: "pay money already!"});
   })
 })
 
 router.post('/update/car',auth, function(req, res, next) {
    var index = parseInt(req.body.index);
-   var car = parseInt(req.body.car);
+   var car = req.body.car;
 
-    sheets.updateMoneyByIndex(index,car, (err, data) => {
+    sheets.updateCarByIndex(index,car, (err, data) => {
     if(err){
-      res.send({ success : false ,  msg: "give shirt!"});
+      res.send({success : false ,  msg: "err car!"});
     }
-      res.send({success : true  ,  msg: "give shirt!"});
+      res.send({success : true  ,  msg: "car number!"});
   })
 })
 

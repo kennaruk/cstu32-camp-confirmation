@@ -318,7 +318,7 @@ exports.updateCarByIndex = (index,car, callback) => {
       range: updateRange, 
       valueInputOption: "USER_ENTERED",
       resource: {
-        values: [["รถคันที่"+ car]]
+        values: [[car]]
       } 
     }, (err, response) => {
       if (err) {

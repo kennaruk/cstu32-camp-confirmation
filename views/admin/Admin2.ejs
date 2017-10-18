@@ -43,19 +43,17 @@
           ev.preventDefault();
             var code = $('#code').val();
             var formData = { code : code };
-
+           
           $.ajax({
               url: frm.attr('action'),
               type: frm.attr('method'),
               data:  formData,
               success: function (success) {
                 if(!success.err){
-                  
-                    window.location = '/'+success.code+"/information" ;
-                
+                    window.location = '/admin/'+success.code+"/information" ;
                 }else{
                   swal("แย่จัง!!", "code ผิดน้า", "error").then(() => {
-                    window.location = '/admin/confirm';
+                    window.location.reload();
                   });
                 }
               } 

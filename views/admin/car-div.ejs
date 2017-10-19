@@ -1,0 +1,9 @@
+<div class="col-md-12" style="padding-right: 0px; padding-left: 0px;">
+    <%if ( payload.car.includes("ทะเบียน")) {%>
+        <h1 class="text-danger" id="car-text" >เลือกคันรถ</h1>
+        <a class="btn w-30 m-1 btn-success" id="car1" style="color: white; text-decoration: underline; cursor: pointer;" > </a>
+        <a class="btn w-30 m-1 btn-danger" id="car2"  style="color: white; text-decoration: underline; cursor: pointer;" > </a>
+    <% } else { %>
+        <h4 class="text-success py-0 " id="car-num">รถ: <%= payload.car %></h4>                
+    <% } %>
+</div>

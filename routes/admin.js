@@ -60,7 +60,7 @@ router.get('/:code/information',auth, function(req,res,next){
         shirt: row[SHIRT_INDEX],
         car: row[CAR_INDEX],
         index: row[ROW_INDEX],
-
+        chkclick : false
       }
        res.render('admin/Admin3.ejs', {payload: payload});
     }
@@ -131,13 +131,28 @@ router.post('/update/shirt',auth, function(req, res, next) {
 
 router.post('/update/money',auth, function(req, res, next) {
    var index = parseInt(req.body.index);
+   var money = req.body.money;
 
-    sheets.updateMoneyByIndex(index, (err, data) => {
-    if(err){
-     res.send({success : false ,  msg: "err money!"});
-    }
-     res.send({success : true ,  msg: "pay money already!"});
-  })
+   console.log(money);
+   if(money === 'true'){
+      console.log("1");
+      sheets.updateMoneyByIndex(index, (err, data) => {
+      if(err){
+      res.render('admin/money-shirt-div.ejs' , {payload: {pay: 'ยังไม่จ่าย' ,chkclick :false}});
+        
+      //  res.send({success : false ,  msg: "err money!"});
+      }
+      res.render('admin/money-shirt-div.ejs' , {payload: {pay: 'จ่ายแล้ว',chkclick : true}});
+
+      //  res.send({success : true ,  msg: "pay money already!"});
+    })
+   }else{
+     console.log("2");
+     
+    res.render('admin/money-shirt-div.ejs' , {payload: {pay: 'ยังไม่จ่าย' , chkclick : true}});
+     
+   }
+  
 })
 
 router.post('/update/car',auth, function(req, res, next) {
@@ -146,9 +161,11 @@ router.post('/update/car',auth, function(req, res, next) {
 
     sheets.updateCarByIndex(index,car, (err, data) => {
     if(err){
-      res.send({success : false ,  msg: "err car!"});
+      res.render('admin/car-div.ejs' , {payload: {car: 'โปรดรับคันรถกับฝ่ายทะเบียน'}});
+      // res.send({success : false ,  msg: "err car!"});
     }
-      res.send({success : true  ,  msg: "car number!"});
+      res.render('admin/car-div.ejs' , {payload: {car: car}});      
+      // res.send({success : true  ,  msg: "car number!"});
   })
 })
 

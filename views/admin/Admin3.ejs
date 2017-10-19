@@ -27,29 +27,18 @@
               <br>ไซส์เสื้อ :<%= payload.size%>
             </p>
            
-            <% if( !(payload.shirt === 'รับเสื้อแล้ว') ){ %>
-
+          <% if( !(payload.shirt === 'รับเสื้อแล้ว') ){ %>
+            
+            
             <div class="row" id="div-car">
-              <div class="col-md-12" style="padding-right: 0px; padding-left: 0px;">
-                <h1 class="text-danger" id="car-text" >เลือกคันรถ</h1>
-                <a class="btn w-30 m-1 btn-success" id="car1" style="color: white; text-decoration: underline; cursor: pointer;" > </a>
-                <a class="btn w-30 m-1 btn-danger" id="car2"  style="color: white; text-decoration: underline; cursor: pointer;" > </a>
-              </div>
+              <% include car-div.ejs %>
             </div>
 
             <div class="row" id= "div-money-shirt">
-              <div class="col-md-12" style="padding-right: 0px; padding-left: 0px;">
-                <br>                
-                <h4 class="text-success" id="paid" >จ่ายเงินเรียบร้อยจ้า</h4>
-                <h1 class="text-danger" id= "unpaid" >ยังไม่ได้จ่ายเงิน!!</h1>
-                <h4 class="text-success py-0 " id="car-num">รถ: <%= payload.car %></h4>
-                <a class="btn w-30 m-1 btn-success" id="money-btn-1" style="color: white; text-decoration: underline; cursor: pointer;" >จ่ายเงินเรียบร้อยจ้า</a>
-                <a class="btn w-30 m-1 btn-danger" id="money-btn-2"  style="padding: 9px 40px 9px 40px; color: white; text-decoration: underline; cursor: pointer;" >ค้างชำระ</a>
-                <a class="btn w-75 m-3 btn-success" id="get-shirt" style="color: white; text-decoration: underline; cursor: pointer;">รับเสื้อเรียบร้อยเด้อ</a>
-              </div>
+               <% include money-shirt-div.ejs%>
             </div>
 
-            <% } else { %>
+          <% } else { %>
 
             <div class="row" id= "div-money-car">
               <div class="col-md-12">
@@ -63,7 +52,7 @@
               </div>
             </div>
 
-            <% }%>
+          <% }%>
 
             <div class="card-body">
               <div class="col-md-12">
@@ -80,78 +69,98 @@
   <% include ../admin/scriptAd.ejs %>
 </body>
 <script>
+
   $(function () {
 
       //button show car [บัณฑิต , ปี1 , ปี2 , ปี3 , ปี4 , guest]
       <% if( (payload.year === 'ปี 1' || payload.year === 'ปี 2') && payload.car.includes("ฝ่ายทะเบียน")){ %>
-          $('#car-num').hide();
+          // $('#car-num').hide();
           $('#car1').html("รถคันที่ 1");
           $('#car2').html("รถคันที่ 2");          
       <% } else if( (payload.year === 'ปี 4' ) && payload.car.includes("ฝ่ายทะเบียน")){ %>
-          $('#car-num').hide();        
+          // $('#car-num').hide();        
           $('#car1').html("รถคันที่ 3");
           $('#car2').html("รถคันที่ 4");   
-      <% } else{ %>
-          $('#car-num').show();                
-          $('#div-car').hide();      
-      <% } %>
+      <% }%>
+      
 
-      //check button hide/show
-      <% if( (payload.pay === 'จ่ายแล้ว')){ %>
-        $('#unpaid').hide();
-        $('#money-btn-1').hide();
-        $('#money-btn-2').hide();
-      <% } else{ %>
-        $("#get-shirt").hide();
-        $('#paid').hide();
-      <%  }%>
+      // //check button hide/show
+      // <% if( (payload.pay === 'จ่ายแล้ว')){ %>
+      //   // $('#unpaid').hide();
+      //   $('#money-btn-1').hide();
+      //   $('#money-btn-2').hide();
+      // <% } else{ %>
+      //   $("#get-shirt").hide();
+      //   // $('#paid').hide();
+      // <%  }%>
 
       //button paid
       function swapButton() {
         $("#money-btn-1").hide();
         $("#money-btn-2").hide();
         $("#get-shirt").show();
-        $('#unpaid').hide();
-        $('#paid').show();
+        // $('#unpaid').hide();
+        // $('#paid').show();
       }
 
-      //button unpaid
-      function swapButtonunpaid() {
-        $("#money-btn-1").hide();
-        $("#money-btn-2").hide();
-        $("#get-shirt").show();
-      }
+      // //button unpaid
+      // function swapButtonunpaid() {
+      //   $("#money-btn-1").hide();
+      //   $("#money-btn-2").hide();
+      //   $("#get-shirt").show();
+      // }
 
       var index = <%=payload.index%>;
 
       // button paid 
       $("#money-btn-1").click(function(){
-        swapButton();
+        // swapButton();
          $.ajax({
             url: '/admin/update/money',
             type:'POST',
-            data: {index : index},
+            data: {index : index , money : true},
             success: function (success) {
-              if(success.success){
-                $('#unpaid').hide();
-                $('#paid').show();
-              }else{
-                swal("แย่จัง!!", "ผิดพลาดเรื่อง การเงิน ขอโทษด้วย", "error").then(() => {
-                  window.location.reload();              
-                });
-              }
+              $('#div-money-shirt').html(success);   // reload for show numbercar (numbercar form sheets)                                                      
+              
+
+              // if(success.success){
+              //   // $('#unpaid').hide();
+              //   // $('#paid').show();
+              // }else{
+              //   swal("แย่จัง!!", "ผิดพลาดเรื่อง การเงิน ขอโทษด้วย", "error").then(() => {
+              //     window.location.reload();              
+              //   });
+              // }
             }
           });
       });
 
       // button unpaid 
       $("#money-btn-2").click(function(){
-        swapButtonunpaid();
+        // swapButton();
+         $.ajax({
+            url: '/admin/update/money',
+            type:'POST',
+            data: {index : index , money : false},
+            success: function (success) {
+              $('#div-money-shirt').html(success);   // reload for show numbercar (numbercar form sheets)                                                      
+              
+
+              // if(success.success){
+              //   // $('#unpaid').hide();
+              //   // $('#paid').show();
+              // }else{
+              //   swal("แย่จัง!!", "ผิดพลาดเรื่อง การเงิน ขอโทษด้วย", "error").then(() => {
+              //     window.location.reload();              
+              //   });
+              // }
+            }
+          });
       });
 
       // button get shirt
-      $("#get-shirt").click(function(){
-
+      $("#get-shirt-btn").click(function(){
+        console.log("shirttt");
         $.ajax({
           url: '/admin/update/shirt',
           type:'POST',
@@ -183,17 +192,18 @@
           type:'POST',
           data :  {car : car , index : index},
           success: function (success) {
-            if(success.success){
-              $('#div-car').hide(); 
-              window.location.reload();    // reload for show numbercar (numbercar form sheets)                                                      
-            }else{
-              swal("แย่จัง!!", "ผิดพลาดเรื่อง รถ ขอโทษด้วย", "error").then(() => {
-                window.location.reload();                                                                          
-              });
-            }
-          },
-          error: (err) => {
-            console.log(err);
+              $('#div-car').html(success);   // reload for show numbercar (numbercar form sheets)                                                      
+            
+          //   if(success.success){
+          //     $('#div-car').html(success)   // reload for show numbercar (numbercar form sheets)                                                      
+          //   }else{
+          //     swal("แย่จัง!!", "ผิดพลาดเรื่อง รถ ขอโทษด้วย", "error").then(() => {
+          //       window.location.reload();                                                                          
+          //     });
+          //   }
+          // },
+          // error: (err) => {
+          //   console.log(err);
           }
         });
       })
@@ -208,17 +218,19 @@
           type:'POST',
           data :  {car : car , index : index},
           success: function (success) {
-            if(success.success){
-              $('#div-car').hide();
-              window.location.reload();                      
-            }else{
-              swal("แย่จัง!!", "ผิดพลาดเรื่อง รถ ขอโทษด้วย", "error").then(() => {
-                window.location.reload();                                                          
-              });
-            }
-          },
-          error: (err) => {
-            console.log(err);
+              $('#div-car').html(success);   // reload for show numbercar (numbercar form sheets)                                                      
+            
+          //   if(success.success){
+          //     $('#div-car').hide();
+          //     window.location.reload();                      
+          //   }else{
+          //     swal("แย่จัง!!", "ผิดพลาดเรื่อง รถ ขอโทษด้วย", "error").then(() => {
+          //       window.location.reload();                                                          
+          //     });
+          //   }
+          // },
+          // error: (err) => {
+          //   console.log(err);
           }
         });
       })

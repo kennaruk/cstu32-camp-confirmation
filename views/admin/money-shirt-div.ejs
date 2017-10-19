@@ -1,0 +1,15 @@
+<div class="col-md-12" style="padding-right: 0px; padding-left: 0px;">
+    <br>   
+    <% if( (payload.pay === 'จ่ายแล้ว') ) {%>
+        <h4 class="text-success" id="paid" >จ่ายเงินเรียบร้อยจ้า</h4>
+    <%} else {%>
+        <h1 class="text-danger" id= "unpaid" >ยังไม่ได้จ่ายเงิน!!</h1>
+    <% }%>  
+
+    <% if( (payload.pay === 'จ่ายแล้ว') || payload.chkclick ) {%>  
+        <a class="btn w-75 m-3 btn-success" id="get-shirt-btn" style="color: white; text-decoration: underline; cursor: pointer;">รับเสื้อเรียบร้อยเด้อ</a>
+    <%} else {%> 
+        <a class="btn w-30 m-1 btn-success" id="money-btn-1" style="color: white; text-decoration: underline; cursor: pointer;" >จ่ายเงินเรียบร้อยจ้า</a>
+        <a class="btn w-30 m-1 btn-danger" id="money-btn-2"  style="padding: 9px 40px 9px 40px; color: white; text-decoration: underline; cursor: pointer;" >ค้างชำระ</a>
+    <% }%>  
+</div>

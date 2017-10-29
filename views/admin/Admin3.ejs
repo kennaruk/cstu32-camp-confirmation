@@ -27,7 +27,7 @@
               <br>ไซส์เสื้อ :<%= payload.size%>
             </p>
            
-          <% if( !(payload.shirt === 'รับเสื้อแล้ว') ){ %>
+          <% if( !(payload.shirt === 'รับเสื้อแล้ว')  ){ %>
             
             
             <div class="row" id="div-car">
@@ -83,6 +83,9 @@
           $('#car2').html("รถคันที่ 4");   
       <% }%>
       
+      
+   
+
 
       // //check button hide/show
       // <% if( (payload.pay === 'จ่ายแล้ว')){ %>
@@ -158,29 +161,27 @@
           });
       });
 
-      // button get shirt
-      $("#get-shirt-btn").click(function(){
-        console.log("shirttt");
-        $.ajax({
-          url: '/admin/update/shirt',
-          type:'POST',
-          data :  {index : index},
-          success: function (success) {
-            if(success.success){
-              swal("เย้!!", "รับเสื้อเรียบร้อยแล้วครับ", "success").then(() => {
-                window.location.reload();              
-              });
-            }else{
-              swal("แย่จัง!!", "ผิดพลาดเรื่อง เสื้อ ขอโทษด้วย", "error").then(() => {
-                window.location.reload();                            
-              });
-            }
-          },
-          error: (err) => {
-            console.log(err);
-          }
-        });
-      });
+      // // button get shirt
+      // $("#get-shirt-btn").click(function(){
+      //   console.log("shirttt");
+      //   $.ajax({
+      //     url: '/admin/update/shirt',
+      //     type:'POST',
+      //     data :  {index : index, chkcar : chkcar.includes("ทะเบียน")},
+      //     success: function (success) {
+      //       if(success.success && chkcar.includes("ทะเบียน")){
+      //         swal("เย้!!", "รับเสื้อเรียบร้อยแล้วครับ", "success").then(() => {
+      //           window.location.reload();              
+      //         });
+      //       }else{
+      //         swal("แย่จัง!!", "ข้อมูลยังไม่ครบ", "error");
+      //       }
+      //     },
+      //     error: (err) => {
+      //       console.log(err);
+      //     }
+      //   });
+      // });
 
       // button car       
       $("#car1").click(function(){

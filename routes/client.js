@@ -12,7 +12,7 @@ const YEAR_INDEX = 0,
   SHIRT_INDEX = 8,
   GROUP_INDEX = 9,
   CAR_INDEX = 10,
-  ROW_INDEX = 11;
+  ROW_INDEX = 13;
 
 /* GET home page. */
 router.get('/', function(req, res, next) {

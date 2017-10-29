@@ -62,6 +62,7 @@ router.get('/:code/information',auth, function(req,res,next){
         index: row[ROW_INDEX],
         chkclick : false
       }
+      
        res.render('admin/Admin3.ejs', {payload: payload});
     }
   });
@@ -120,39 +121,49 @@ router.post('/update/shirt',auth, function(req, res, next) {
 
    var index = parseInt(req.body.index);
 
-    sheets.updateShirtByIndex(index, (err, data) => {
-    if(err){
-      res.send({ success : false ,  msg: "err shirt!"});
-    } else {   
-      res.send({success : true  ,  msg: "give shirt!"});
+   sheets.getDataByIndex(index,(err,row) => {
+        if(err){
+          console.log(err);
+        } else {
+
+          var  chkcar = row[CAR_INDEX];
+ 
+        if(!chkcar.includes("ทะเบียน")){
+          sheets.updateShirtByIndex(index, (err, data) => {
+            if(err){
+              res.send({ success : false ,car : false,  msg: "err shirt!"});        
+            } else {   
+              res.send({success : true  , car : true , msg: "give shirt!"});
+            }
+          })
+        }else{
+              res.send({ success : false ,car : false,  msg: "err shirt!"});
+        }
     }
-  })
+    })
 })
 
 router.post('/update/money',auth, function(req, res, next) {
    var index = parseInt(req.body.index);
    var money = req.body.money;
+   
+        if(money === 'true'){
+            sheets.updateMoneyByIndex(index, (err, data) => {
+            if(err){
+            res.render('admin/money-shirt-div.ejs' , {payload: {pay: 'ยังไม่จ่าย' ,chkclick :false , index :index}});
+              
+            //  res.send({success : false ,  msg: "err money!"});
+            }
+            res.render('admin/money-shirt-div.ejs' , {payload: {pay: 'จ่ายแล้ว',chkclick : true,index : index}});
 
-   console.log(money);
-   if(money === 'true'){
-      console.log("1");
-      sheets.updateMoneyByIndex(index, (err, data) => {
-      if(err){
-      res.render('admin/money-shirt-div.ejs' , {payload: {pay: 'ยังไม่จ่าย' ,chkclick :false}});
-        
-      //  res.send({success : false ,  msg: "err money!"});
-      }
-      res.render('admin/money-shirt-div.ejs' , {payload: {pay: 'จ่ายแล้ว',chkclick : true}});
+            //  res.send({success : true ,  msg: "pay money already!"});
+          })
+        }else{
+          
+          res.render('admin/money-shirt-div.ejs' , {payload: {pay: 'ยังไม่จ่าย' , chkclick : true,index :index}});
+          
+        }
 
-      //  res.send({success : true ,  msg: "pay money already!"});
-    })
-   }else{
-     console.log("2");
-     
-    res.render('admin/money-shirt-div.ejs' , {payload: {pay: 'ยังไม่จ่าย' , chkclick : true}});
-     
-   }
-  
 })
 
 router.post('/update/car',auth, function(req, res, next) {

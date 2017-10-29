@@ -233,7 +233,7 @@ exports.getDataByCode = (code, callback) => {
 }
 
 exports.getDataByIndex = (index, callback) => {
-  var readRange = sheet+'A'+(index+2)+':I'+(index+2);  
+  var readRange = sheet+'A'+(index+2)+':K'+(index+2);  
   
   authentication.authenticate().then((auth) => {
     sheets.spreadsheets.values.get({

@@ -19,6 +19,16 @@ router.get('/', function(req, res, next) {
   res.render('client/page1.ejs');
 });
 
+router.get('/credits', function(req, res, next) {
+  res.render('client/credits.ejs');
+});
+
+router.post('/credit', function(req, res, next) {
+  
+  res.send({success: true});
+
+});
+
 router.post('/information', function(req, res, next) {
   var id = req.body.id;
   

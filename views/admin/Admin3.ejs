@@ -74,118 +74,44 @@
 
       //button show car [บัณฑิต , ปี1 , ปี2 , ปี3 , ปี4 , guest]
       <% if( (payload.year === 'ปี 1' || payload.year === 'ปี 2') && payload.car.includes("ฝ่ายทะเบียน")){ %>
-          // $('#car-num').hide();
           $('#car1').html("รถคันที่ 1");
           $('#car2').html("รถคันที่ 2");          
       <% } else if( (payload.year === 'ปี 4' ) && payload.car.includes("ฝ่ายทะเบียน")){ %>
-          // $('#car-num').hide();        
           $('#car1').html("รถคันที่ 3");
           $('#car2').html("รถคันที่ 4");   
       <% }%>
       
-      
-   
-
-
-      // //check button hide/show
-      // <% if( (payload.pay === 'จ่ายแล้ว')){ %>
-      //   // $('#unpaid').hide();
-      //   $('#money-btn-1').hide();
-      //   $('#money-btn-2').hide();
-      // <% } else{ %>
-      //   $("#get-shirt").hide();
-      //   // $('#paid').hide();
-      // <%  }%>
-
-      //button paid
-      function swapButton() {
-        $("#money-btn-1").hide();
-        $("#money-btn-2").hide();
-        $("#get-shirt").show();
-        // $('#unpaid').hide();
-        // $('#paid').show();
-      }
-
-      // //button unpaid
-      // function swapButtonunpaid() {
-      //   $("#money-btn-1").hide();
-      //   $("#money-btn-2").hide();
-      //   $("#get-shirt").show();
-      // }
 
       var index = <%=payload.index%>;
 
       // button paid 
       $("#money-btn-1").click(function(){
-        // swapButton();
+       
          $.ajax({
             url: '/admin/update/money',
             type:'POST',
             data: {index : index , money : true},
             success: function (success) {
-              $('#div-money-shirt').html(success);   // reload for show numbercar (numbercar form sheets)                                                      
-              
-
-              // if(success.success){
-              //   // $('#unpaid').hide();
-              //   // $('#paid').show();
-              // }else{
-              //   swal("แย่จัง!!", "ผิดพลาดเรื่อง การเงิน ขอโทษด้วย", "error").then(() => {
-              //     window.location.reload();              
-              //   });
-              // }
+              $('#div-money-shirt').html(success);                                                        
             }
           });
       });
 
       // button unpaid 
       $("#money-btn-2").click(function(){
-        // swapButton();
+        
          $.ajax({
             url: '/admin/update/money',
             type:'POST',
             data: {index : index , money : false},
             success: function (success) {
-              $('#div-money-shirt').html(success);   // reload for show numbercar (numbercar form sheets)                                                      
-              
-
-              // if(success.success){
-              //   // $('#unpaid').hide();
-              //   // $('#paid').show();
-              // }else{
-              //   swal("แย่จัง!!", "ผิดพลาดเรื่อง การเงิน ขอโทษด้วย", "error").then(() => {
-              //     window.location.reload();              
-              //   });
-              // }
+              $('#div-money-shirt').html(success);                                                       
             }
           });
       });
 
-      // // button get shirt
-      // $("#get-shirt-btn").click(function(){
-      //   console.log("shirttt");
-      //   $.ajax({
-      //     url: '/admin/update/shirt',
-      //     type:'POST',
-      //     data :  {index : index, chkcar : chkcar.includes("ทะเบียน")},
-      //     success: function (success) {
-      //       if(success.success && chkcar.includes("ทะเบียน")){
-      //         swal("เย้!!", "รับเสื้อเรียบร้อยแล้วครับ", "success").then(() => {
-      //           window.location.reload();              
-      //         });
-      //       }else{
-      //         swal("แย่จัง!!", "ข้อมูลยังไม่ครบ", "error");
-      //       }
-      //     },
-      //     error: (err) => {
-      //       console.log(err);
-      //     }
-      //   });
-      // });
-
       // button car       
       $("#car1").click(function(){
-
         var car = $("#car1").text();  
 
           $.ajax({
@@ -193,25 +119,13 @@
           type:'POST',
           data :  {car : car , index : index},
           success: function (success) {
-              $('#div-car').html(success);   // reload for show numbercar (numbercar form sheets)                                                      
-            
-          //   if(success.success){
-          //     $('#div-car').html(success)   // reload for show numbercar (numbercar form sheets)                                                      
-          //   }else{
-          //     swal("แย่จัง!!", "ผิดพลาดเรื่อง รถ ขอโทษด้วย", "error").then(() => {
-          //       window.location.reload();                                                                          
-          //     });
-          //   }
-          // },
-          // error: (err) => {
-          //   console.log(err);
+              $('#div-car').html(success);                                              
           }
         });
       })
 
       // button car 
        $("#car2").click(function(){
-
         var car = $("#car2").text();
 
           $.ajax({
@@ -219,19 +133,8 @@
           type:'POST',
           data :  {car : car , index : index},
           success: function (success) {
-              $('#div-car').html(success);   // reload for show numbercar (numbercar form sheets)                                                      
+              $('#div-car').html(success);                                                       
             
-          //   if(success.success){
-          //     $('#div-car').hide();
-          //     window.location.reload();                      
-          //   }else{
-          //     swal("แย่จัง!!", "ผิดพลาดเรื่อง รถ ขอโทษด้วย", "error").then(() => {
-          //       window.location.reload();                                                          
-          //     });
-          //   }
-          // },
-          // error: (err) => {
-          //   console.log(err);
           }
         });
       })

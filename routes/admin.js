@@ -125,7 +125,6 @@ router.post('/update/shirt',auth, function(req, res, next) {
         if(err){
           console.log(err);
         } else {
-
           var  chkcar = row[CAR_INDEX];
  
         if(!chkcar.includes("ทะเบียน")){
@@ -137,7 +136,7 @@ router.post('/update/shirt',auth, function(req, res, next) {
             }
           })
         }else{
-              res.send({ success : false ,car : false,  msg: "err shirt!"});
+            res.send({ success : false ,car : false,  msg: "err shirt!"});
         }
     }
     })
@@ -150,20 +149,13 @@ router.post('/update/money',auth, function(req, res, next) {
         if(money === 'true'){
             sheets.updateMoneyByIndex(index, (err, data) => {
             if(err){
-            res.render('admin/money-shirt-div.ejs' , {payload: {pay: 'ยังไม่จ่าย' ,chkclick :false , index :index}});
-              
-            //  res.send({success : false ,  msg: "err money!"});
+              res.render('admin/money-shirt-div.ejs' , {payload: {pay: 'ยังไม่จ่าย' ,chkclick :false , index :index}});
             }
-            res.render('admin/money-shirt-div.ejs' , {payload: {pay: 'จ่ายแล้ว',chkclick : true,index : index}});
-
-            //  res.send({success : true ,  msg: "pay money already!"});
+              res.render('admin/money-shirt-div.ejs' , {payload: {pay: 'จ่ายแล้ว',chkclick : true,index : index}});
           })
         }else{
-          
           res.render('admin/money-shirt-div.ejs' , {payload: {pay: 'ยังไม่จ่าย' , chkclick : true,index :index}});
-          
         }
-
 })
 
 router.post('/update/car',auth, function(req, res, next) {
@@ -173,10 +165,8 @@ router.post('/update/car',auth, function(req, res, next) {
     sheets.updateCarByIndex(index,car, (err, data) => {
     if(err){
       res.render('admin/car-div.ejs' , {payload: {car: 'โปรดรับคันรถกับฝ่ายทะเบียน'}});
-      // res.send({success : false ,  msg: "err car!"});
     }
       res.render('admin/car-div.ejs' , {payload: {car: car}});      
-      // res.send({success : true  ,  msg: "car number!"});
   })
 })
 

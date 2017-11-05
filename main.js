@@ -36,7 +36,7 @@ function getData(auth) {
 // const sheet = 'Sheet1!';
 const spreadsheetId = '1I9BvHPQlxsIAVxBZWXqAry0Fdu0tePcttAiJ2gR8FRY';
 const sheet = 'Testing!';
-const range = sheet+'A2:K';
+const range = sheet+'A2:M';
 const sheets = google.sheets('v4');
 
 exports.getDataAdmin = (callback) =>  {
